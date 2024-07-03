@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="mainColor">#FF82C0EA</color>
+    <color name="pinkMainColor">#FFFF9B9B</color>
+    <color name="brownMainColor">#FFCFB67B</color>
+    <color name="greenMainColor">#FFAAD200</color>
+    <color name="mainTextColor">#FF393939</color>
+    <color name="mainGreyColor">#FF595959</color>
+    <color name="myBoardColor">#FF818181</color>
+    <color name="postRegisterTextColor">#FFC8C8C8</color>
+    <color name="chatFromMeColor">#FFC6EFF9</color>
+    <color name="chatFromOtherColor">#FFDEDEDE</color>
+    <color name="meetingDetailButtonTextColor">#FF717171</color>
+    <color name="meetingDetailButtonColor">#FFEDEDED</color>
+    <color name="settingScreenSwitchColor">#FFCDCDCD</color>
+    <color name="settingScreenBackgroundColor">#FFF4F4F4</color>
+    <color name="settingScreenTitleTextColor">#FF969696</color>
+    <color name="settingScreenColorTextColor">#FF7E7E7E</color>
+    <color name="inquiryScreenTitleTextColor">#FF686868</color>
+    <color name="inquiryScreenContentTextColor">#FFBEBEBE</color>
+    <color name="noticeListScreenTextColor">#FFC0C0C0</color>
+    <color name="attendFalseColor">#FFB3B3B3</color>
+</resources>
