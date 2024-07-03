@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
@@ -17,6 +18,8 @@ import com.example.xml_ver.databinding.FragmentLoadingBinding
 import com.example.xml_ver.screen.MainViewModel
 import com.example.xml_ver.screen.intro.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoadingFragment : Fragment() {
@@ -24,7 +27,7 @@ class LoadingFragment : Fragment() {
     private val loginViewModel by viewModels<LoginViewModel>()
     private val mainViewModel by viewModels<MainViewModel>()
 
-    private lateinit var binding: FragmentLoadingBinding // Replace with your actual binding class name
+    private lateinit var binding: FragmentLoadingBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,5 +51,30 @@ class LoadingFragment : Fragment() {
             wontImg.setColorFilter(ContextCompat.getColor(requireContext(), R.color.mainColor))
         }
 
+        checkLoginState()
+
+    }
+
+    fun checkLoginState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(1500)
+            loginViewModel.checkUserExists()
+            loginViewModel.loginUser.collect { state ->
+                when (state) {
+                    LoginViewModel.LoginUserState.LOGIN -> {
+                        findNavController().navigate(R.id.userRegisterFragment)
+                    }
+                    LoginViewModel.LoginUserState.NONE -> {
+                        findNavController().navigate(R.id.loginFragment)
+                    }
+                    LoginViewModel.LoginUserState.SUCCESS -> {
+                        val intent = Intent(context, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                    else -> {
+                    }
+                }
+            }
+        }
     }
 }

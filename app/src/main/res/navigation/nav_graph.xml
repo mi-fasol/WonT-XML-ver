@@ -18,4 +18,9 @@
         android:id="@+id/userRegisterFragment"
         android:name="com.example.xml_ver.screen.intro.UserRegisterFragment"
         tools:layout="@layout/fragment_user_register" />
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.xml_ver.screen.main.HomeFragment"
+        tools:layout="@layout/fragment_home" />
 </navigation>

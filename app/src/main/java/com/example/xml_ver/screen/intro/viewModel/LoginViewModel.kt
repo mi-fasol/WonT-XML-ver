@@ -25,7 +25,7 @@ class LoginViewModel @Inject constructor(
     private val context: Context
 ) : ViewModel() {
 
-    enum class LoginUserState { SUCCESS, LOGIN, NONE }
+    enum class LoginUserState { SUCCESS, LOGIN, NONE, BEFORE }
 
     private val _loginState = MutableStateFlow<Resource<LoginModel>>(Resource.loading(null))
     val loginState: StateFlow<Resource<LoginModel>> = _loginState.asStateFlow()
@@ -44,8 +44,9 @@ class LoginViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     suspend fun checkUserExists() {
-        _userState.value = LoginUserState.NONE
+        _userState.value = LoginUserState.BEFORE
         val studentId = SharedPreferenceUtil(context).getString("studentId", "").toString()
+        Log.d("studentID: ", studentId)
         if (studentId.isNotBlank()) {
             viewModelScope.launch {
                 try {
@@ -63,18 +64,23 @@ class LoginViewModel @Inject constructor(
                             Log.d("미란 유저", responseUId.toString())
                         }
                         Log.d("미란 state", _userState.value.toString())
-                    } else{
+                    } else {
                         Log.e("API Exception", "널로 받아짐")
                     }
                 } catch (e: Exception) {
                     Log.e("API Exception", "요청 중 예외 발생: ${e.message}")
                 }
             }
+        } else {
+            Log.d("미란 ", "실행은 됨 ${_userState.value.toString()}")
+            _userState.value = LoginUserState.NONE
+            Log.d("미란 ", "에효효 ${_userState.value.toString()}")
         }
     }
 
-    fun login(id: String, pwd: String) {
+    fun login(id: String, pwd : String) {
         _isLoginSuccess.value = false
+        Log.d("미란", "일단 실행은 됐쓰요~")
         viewModelScope.launch {
             _loginState.value = Resource.loading(null)
             try {
@@ -88,6 +94,7 @@ class LoginViewModel @Inject constructor(
                     if (isSuccess!!) {
                         SharedPreferenceUtil(context).setString("studentId", id)
                     }
+                    Log.d("stId: ", SharedPreferenceUtil(context).getString("studentId", "").toString())
                     Log.d("로그인 결과", _isLoginSuccess.value.toString())
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
