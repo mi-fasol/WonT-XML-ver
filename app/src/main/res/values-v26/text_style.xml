@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="FloatingButtonText">
+        <item name="android:fontFamily">@sc_dream</item>
+        <item name="android:textSize">11.5sp</item>
+        <item name="android:fontWeight">500</item>
+    </style>
+</resources>

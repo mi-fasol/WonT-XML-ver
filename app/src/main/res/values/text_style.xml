@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BoardDetailTitle">
+        <item name="android:fontFamily">@font/sc_dream5</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="BoardDetailContent">
+        <item name="android:fontFamily">@font/sc_dream4</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="BoardDetailAttendeeInfo">
+        <item name="android:fontFamily">@font/sc_dream7</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="BoardDetailAttendButtonText">
+        <item name="android:fontFamily">@font/sc_dream5</item>
+        <item name="android:textSize">9.5sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="CommentInfo">
+        <item name="android:fontFamily">@font/sc_dream5</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CommentUserNickname">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="PostUserNickname">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">12.5sp</item>
+    </style>
+
+    <style name="PostUserInfo">
+        <item name="android:fontFamily">@font/sc_dream5</item>
+        <item name="android:textSize">8.5sp</item>
+    </style>
+
+    <style name="CommentContent">
+        <item name="android:fontFamily">@font/sc_dream5</item>
+        <item name="android:textSize">12.5sp</item>
+    </style>
+
+    <style name="ReplyButtonText">
+        <item name="android:fontFamily">@font/sc_dream5</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="ButtonText">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="RegisterScreenProfileText">
+        <item name="android:fontFamily">@font/sc_dream7</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextFieldContent">
+        <item name="android:fontFamily">@font/sc_dream4</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TextFieldTitle">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="MeetingScreenNoticeText">
+        <item name="android:fontFamily">@font/sc_dream4</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="MeetingScreenTitle">
+        <item name="android:fontFamily">@font/sc_dream5</item>
+        <item name="android:textSize">13.5sp</item>
+    </style>
+
+    <style name="MeetingScreenPerson">
+        <item name="android:fontFamily">@font/sc_dream3</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="MeetingScreenDeadline">
+        <item name="android:fontFamily">@font/sc_dream2</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="MeetingScreenAttendInfo">
+        <item name="android:fontFamily">@font/sc_dream7</item>
+        <item name="android:textSize">12.5sp</item>
+    </style>
+
+    <style name="ClubScreenTitle">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">13.5sp</item>
+    </style>
+
+    <style name="ClubScreenDescription">
+        <item name="android:fontFamily">@font/sc_dream4</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="BoardAppBar">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="HotPlaceScreenInfo">
+        <item name="android:fontFamily">@font/sc_dream5</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="PopularPlaceTitle">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="HotPlaceScreenTitle">
+        <item name="android:fontFamily">@font/sc_dream5</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="NoticeScreenDate">
+        <item name="android:fontFamily">@font/sc_dream4</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="SettingScreenAppBar">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">19sp</item>
+    </style>
+
+    <style name="BackArrowAppBar">
+        <item name="android:fontFamily">@font/sc_dream4</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="MainPageAppBar">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="BoardRegisterAppBar">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">19sp</item>
+    </style>
+
+    <style name="ChatRoomAppBar">
+        <item name="android:fontFamily">@font/sc_dream5</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="BoardRegisterDropdown">
+        <item name="android:fontFamily">@font/sc_dream5</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="ContentEnterText">
+        <item name="android:fontFamily">@font/sc_dream5</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#B6B6B6</item>
+    </style>
+
+    <style name="EnterField">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">17.5sp</item>
+    </style>
+
+    <style name="ChatMessage">
+        <item name="android:fontFamily">@font/sc_dream4</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="ReportedNickname">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="ReportCheck">
+        <item name="android:fontFamily">@font/sc_dream6</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="MyWishInfo">
+        <item name="android:fontFamily">@font/sc_dream7</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="SwitchText">
+        <item name="android:fontFamily">@font/sc_dream3</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="SettingTitle">
+        <item name="android:fontFamily">@font/sc_dream3</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="WithdrawInfo">
+        <item name="android:fontFamily">@font/sc_dream3</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="WithdrawCheck">
+        <item name="android:fontFamily">@font/sc_dream3</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="MyPageProfile">
+        <item name="android:fontFamily">@font/sc_dream7</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="MyPageNickname">
+        <item name="android:fontFamily">@font/sc_dream3</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="MyPageListItem">
+        <item name="android:fontFamily">@font/sc_dream4</item>
+        <item name="android:textSize">16.5sp</item>
+    </style>
+
+    <style name="CommentText">
+        <item name="android:fontFamily">@font/sc_dream4</item>
+        <item name="android:textSize">12.5sp</item>
+        <item name="android:textColor">#393939</item>
+    </style>
+
+    <style name="FloatingButtonText">
+        <item name="android:fontFamily">@sc_dream5</item>
+        <item name="android:textSize">11.5sp</item>
+    </style>
+
+</resources>
