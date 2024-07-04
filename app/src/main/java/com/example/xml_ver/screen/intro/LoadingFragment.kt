@@ -9,14 +9,13 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
 import com.example.xml_ver.databinding.FragmentLoadingBinding
-import com.example.xml_ver.screen.MainViewModel
-import com.example.xml_ver.screen.intro.viewModel.LoginViewModel
+import com.example.xml_ver.viewModel.MainViewModel
+import com.example.xml_ver.viewModel.user.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

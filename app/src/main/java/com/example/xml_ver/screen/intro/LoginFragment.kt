@@ -6,13 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.xml_ver.MainActivity
-import com.example.xml_ver.databinding.FragmentLoadingBinding
+import com.example.xml_ver.R
 import com.example.xml_ver.databinding.FragmentLoginBinding
-import com.example.xml_ver.screen.intro.viewModel.LoginViewModel
+import com.example.xml_ver.viewModel.user.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 @AndroidEntryPoint
@@ -35,12 +36,22 @@ class LoginFragment : Fragment() {
 
         binding.apply {
             btnLogin.setOnClickListener { tryLogin() }
+            viewLifecycleOwner.lifecycleScope.launch {
+                loginViewModel.isValid.collect {
+                    if(it) {
+                        btnLogin.isEnabled = true
+                    } else{
+                        btnLogin.isClickable = false
+                        btnLogin.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.mainGreyColor))
+                    }
+                }
+            }
         }
     }
 
     private fun tryLogin() {
-        val username = binding.etUsername.text.toString()
-        val password = binding.etPassword.text.toString()
+        val username = binding.studentIdField.text.toString()
+        val password = binding.pwdField.text.toString()
 
         viewLifecycleOwner.lifecycleScope.launch {
             loginViewModel.login(username, password)

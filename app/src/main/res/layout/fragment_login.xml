@@ -7,12 +7,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.xml_ver.screen.intro.viewModel.LoginViewModel" />
+            type="com.example.xml_ver.viewModel.user.LoginViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:padding="16dp">
 
         <LinearLayout
@@ -22,37 +23,70 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <EditText
-                android:id="@+id/etUsername"
+            <ImageView
+                android:id="@+id/logo_img"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:layout_marginHorizontal="20dp"
+                android:src="@drawable/wont_icon" />
+
+            <ImageView
+                android:id="@+id/wont_img"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginHorizontal="80dp"
+                android:src="@drawable/wont" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID"
                 android:layout_marginTop="16dp"
-                android:hint="Username"
-                android:background="@drawable/rounded_border"
-                android:padding="10dp"
-                android:text="@={viewModel.id}" />
+                android:layout_marginLeft="5dp"
+                style = "@style/TextFieldTitle"
+                />
 
             <EditText
-                android:id="@+id/etPassword"
+                android:id="@+id/student_id_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="16dp"
-                android:hint="Password"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_border"
+                android:fontFamily="@font/sc_dream4"
+                android:hint="학번 입력"
+                style = "@style/TextFieldContent"
                 android:padding="10dp"
+                android:text="@={viewModel.id}" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="P/W"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="5dp"
+                style = "@style/TextFieldTitle"
+                />
+
+            <EditText
+                android:id="@+id/pwd_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_border"
+                android:fontFamily="@font/sc_dream4"
+                android:hint="P/W 입력"
+                style = "@style/TextFieldContent"
                 android:inputType="textPassword"
+                android:padding="10dp"
                 android:text="@={viewModel.pwd}" />
 
             <Button
                 android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
+                style = "@style/ButtonText"
+                android:backgroundTint="@color/mainColor"
                 android:text="로그인" />
-
         </LinearLayout>
     </RelativeLayout>
 </layout>
