@@ -1,4 +1,4 @@
-package com.example.xml_ver.screen.intro
+package com.example.xml_ver.ui.intro
 
 import android.content.Intent
 import android.os.Bundle
