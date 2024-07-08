@@ -10,15 +10,17 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
 import com.example.xml_ver.databinding.FragmentLoginBinding
 import com.example.xml_ver.viewModel.user.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
-    private var _binding : FragmentLoginBinding? = null
+    private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val loginViewModel by viewModels<LoginViewModel>()
 
@@ -36,16 +38,16 @@ class LoginFragment : Fragment() {
 
         binding.apply {
             btnLogin.setOnClickListener { tryLogin() }
-            viewLifecycleOwner.lifecycleScope.launch {
-                loginViewModel.isValid.collect {
-                    if(it) {
-                        btnLogin.isEnabled = true
-                    } else{
-                        btnLogin.isClickable = false
-                        btnLogin.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.mainGreyColor))
-                    }
-                }
-            }
+//            viewLifecycleOwner.lifecycleScope.launch {
+//                loginViewModel.isValid.collect {
+//                    if(it) {
+//                        btnLogin.isEnabled = true
+//                    } else{
+//                        btnLogin.isClickable = false
+//                        btnLogin.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.mainGreyColor))
+//                    }
+//                }
+//            }
         }
     }
 
@@ -57,12 +59,31 @@ class LoginFragment : Fragment() {
             loginViewModel.login(username, password)
             loginViewModel.isLoginSuccess.collect { isSuccess ->
                 if (isSuccess) {
-                    val intent = Intent(context, MainActivity::class.java)
-                    startActivity(intent)
+                    loginViewModel.checkUserExists()
+                    loginViewModel.loginUser.collect { state ->
+                        when (state) {
+                            LoginViewModel.LoginUserState.LOGIN -> {
+                                findNavController().navigate(R.id.userRegisterFragment)
+                            }
+
+                            LoginViewModel.LoginUserState.NONE -> {
+                                findNavController().navigate(R.id.loginFragment)
+                            }
+
+                            LoginViewModel.LoginUserState.SUCCESS -> {
+                                val intent = Intent(context, MainActivity::class.java)
+                                startActivity(intent)
+                            }
+
+                            else -> {
+                            }
+                        }
+                    }
                 } else {
                     Log.d("미란", "실패해버렷당 엣큥")
                 }
             }
+
         }
     }
 }
