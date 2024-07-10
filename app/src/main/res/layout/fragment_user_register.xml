@@ -85,7 +85,7 @@
                 android:text="닉네임" />
 
             <EditText
-                android:id="@+id/student_id_field"
+                android:id="@+id/nickname_field"
                 style="@style/TextFieldContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,80 +94,84 @@
                 android:fontFamily="@font/sc_dream4"
                 android:hint="닉네임 입력"
                 android:padding="10dp"
+                android:textColor="@color/myBoardColor"
                 android:text="@={viewModel.nickname}" />
 
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/gender_layout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:id="@+id/gender"
-                    >
-                <TextView
-                    android:id="@+id/gender_title"
-                    style="@style/TextFieldTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="16dp"
-                    android:text="성별" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintWidth_percent="0.35">
 
-                <EditText
-                    android:id="@+id/gender_field"
-                    style="@style/TextFieldContent"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/gender_title"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/rounded_border"
-                    android:fontFamily="@font/sc_dream4"
-                    android:hint="선택"
-                    android:inputType="textPassword"
-                    android:padding="10dp"
-                    android:text="@={viewModel.gender}" />
+                    <TextView
+                        android:id="@+id/gender_title"
+                        style="@style/TextFieldTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="16dp"
+                        android:text="성별" />
+
+                    <Spinner
+                        android:id="@+id/gender_field"
+                        style="@style/TextFieldContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_border"
+                        android:padding="5dp"
+                        android:entries="@array/gender_items"
+                        android:spinnerMode="dropdown"
+                        android:popupBackground="@android:color/white"
+                        android:layout_marginEnd="10dp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/major_layout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/gender"
-                    android:layout_alignTop="@id/gender"
                     android:orientation="vertical"
-                    >
-                <TextView
-                    android:id="@+id/major_title"
-                    style="@style/TextFieldTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_above="@id/major_field"
-                    android:text="전공" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/gender_layout"
+                    app:layout_constraintWidth_percent="0.7">
 
-                <EditText
-                    android:id="@+id/major_field"
-                    style="@style/TextFieldContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/gender_title"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/rounded_border"
-                    android:fontFamily="@font/sc_dream4"
-                    android:hint="전공 선택"
-                    android:inputType="textPassword"
-                    android:layout_toRightOf="@id/gender_field"
-                    android:padding="10dp"
-                    android:text="@={viewModel.gender}" />
+                    <TextView
+                        android:id="@+id/major_title"
+                        style="@style/TextFieldTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_above="@id/major_field"
+                        android:text="전공" />
+
+                    <Spinner
+                        android:id="@+id/major_field"
+                        style="@style/TextFieldContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_border"
+                        android:padding="5dp"
+                        android:entries="@array/major_items"
+                        android:spinnerMode="dropdown"
+                        android:popupBackground="@android:color/white"
+                        android:layout_marginHorizontal="10dp" />
                 </LinearLayout>
-            </RelativeLayout>
-
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/registrationButton"
                 style="@style/ButtonText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
