@@ -2,10 +2,25 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/meetingFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.xml_ver.ui.main.HomeFragment"
+        android:id="@+id/meetingFragment"
+        android:name="com.example.xml_ver.ui.main.board.MeetingFragment"
+        tools:layout="@layout/fragment_meeting" />
+
+    <fragment
+        android:id="@+id/clubFragment"
+        android:name="com.example.xml_ver.ui.main.board.ClubFragment"
+        tools:layout="@layout/fragment_club" />
+
+    <fragment
+        android:id="@+id/hotPlaceFragment"
+        android:name="com.example.xml_ver.ui.main.board.HotPlaceFragment"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/myPageFragment"
+        android:name="com.example.xml_ver.ui.main.setting.MyPageFragment"
+        tools:layout="@layout/fragment_my_page" />
 </navigation>
