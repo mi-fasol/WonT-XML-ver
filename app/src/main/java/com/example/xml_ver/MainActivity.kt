@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.xml_ver.databinding.ActivityMainBinding
-import com.example.xml_ver.ui.main.HomeFragment
 import com.example.xml_ver.ui.main.board.ClubFragment
 import com.example.xml_ver.ui.main.board.HotPlaceFragment
 import com.example.xml_ver.ui.main.board.MeetingFragment
@@ -23,6 +22,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigation
         bottomNavigationView.setOnItemSelectedListener { item ->
