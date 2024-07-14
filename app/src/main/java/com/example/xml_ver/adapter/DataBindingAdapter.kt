@@ -15,4 +15,20 @@ object DateBindingAdapter {
             view.text = convertDate(it)
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("android:person")
+    fun setPerson(view: TextView, person: Int?) {
+        person?.let {
+            view.text = "${person}명"
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:attendee")
+    fun setAttendee(view: TextView, person: Int?) {
+        person?.let {
+            view.text = "${person}/6"
+        }
+    }
 }

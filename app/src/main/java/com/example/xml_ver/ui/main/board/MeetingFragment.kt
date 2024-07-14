@@ -59,7 +59,7 @@ class MeetingFragment : Fragment() {
 
         postAdapter =
             PostAdapter(postViewModel, acceptationViewModel, mainViewModel, navController)
-        binding.recyclerView.apply {
+        binding.postListView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postAdapter
         }
@@ -78,7 +78,7 @@ class MeetingFragment : Fragment() {
             postViewModel.getPost()
             postViewModel.postModelList.collect { posts ->
                 todayPostAdapter.updatePosts(posts)
-                val params = binding.recyclerView.layoutParams as ConstraintLayout.LayoutParams
+                val params = binding.postListView.layoutParams as ConstraintLayout.LayoutParams
                 if (posts.isEmpty()) {
                     binding.todayPostView.visibility = View.GONE
                     params.height = ViewGroup.LayoutParams.MATCH_PARENT
@@ -86,8 +86,8 @@ class MeetingFragment : Fragment() {
                     binding.todayPostView.visibility = View.VISIBLE
                     params.height = (ViewGroup.LayoutParams.MATCH_PARENT * 0.62).toInt()
                 }
-                binding.recyclerView.layoutParams = params
-                binding.recyclerView.requestLayout()
+                binding.postListView.layoutParams = params
+                binding.postListView.requestLayout()
             }
         }
     }
