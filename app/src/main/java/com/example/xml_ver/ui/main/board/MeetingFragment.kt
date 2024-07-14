@@ -50,18 +50,18 @@ class MeetingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
 
-        postAdapter =
-            PostAdapter(postViewModel, acceptationViewModel, mainViewModel, navController)
-        binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = postAdapter
-        }
-
         todayPostAdapter = TodayPostAdapter(navController)
 
         binding.todayPostView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = todayPostAdapter
+        }
+
+        postAdapter =
+            PostAdapter(postViewModel, acceptationViewModel, mainViewModel, navController)
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = postAdapter
         }
 
         setupToolbar(view)
@@ -78,20 +78,16 @@ class MeetingFragment : Fragment() {
             postViewModel.getPost()
             postViewModel.postModelList.collect { posts ->
                 todayPostAdapter.updatePosts(posts)
-//                val params = binding.recyclerView.layoutParams as ConstraintLayout.LayoutParams
-//                if (posts.isEmpty()) {
-//                    binding.todayPostView.visibility = View.GONE
-//                    params.topToBottom = R.id.meetingAppbar
-//                    params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID // 부모 하단에 맞추기
-//                    params.height = ViewGroup.LayoutParams.MATCH_PARENT
-//                } else {
-//                    binding.todayPostView.visibility = View.VISIBLE
-//                    params.topToBottom = R.id.todayPostView
-//                    params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID // 부모 하단에 맞추기
-//                    params.height = (ViewGroup.LayoutParams.MATCH_PARENT * 0.66).toInt()
-//                }
-//                binding.recyclerView.layoutParams = params
-//                binding.recyclerView.requestLayout()
+                val params = binding.recyclerView.layoutParams as ConstraintLayout.LayoutParams
+                if (posts.isEmpty()) {
+                    binding.todayPostView.visibility = View.GONE
+                    params.height = ViewGroup.LayoutParams.MATCH_PARENT
+                } else {
+                    binding.todayPostView.visibility = View.VISIBLE
+                    params.height = (ViewGroup.LayoutParams.MATCH_PARENT * 0.62).toInt()
+                }
+                binding.recyclerView.layoutParams = params
+                binding.recyclerView.requestLayout()
             }
         }
     }

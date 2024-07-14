@@ -52,17 +52,17 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/todayPostView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:padding="16dp"
+                    android:padding="5dp"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/recyclerView"
-                    app:layout_constraintHeight_percent="0.32" />
+                    app:layout_constraintHeight_percent="0.28" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
@@ -72,7 +72,7 @@
                     android:padding="16dp"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHeight_percent="0.66" />
+                    app:layout_constraintHeight_percent="0.62" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

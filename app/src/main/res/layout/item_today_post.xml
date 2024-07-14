@@ -20,39 +20,59 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:padding="8dp">
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/gradient_border"
+        android:padding="3dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="150dp"
             android:layout_height="match_parent"
+            android:shadowColor="@color/mainColor"
             app:cardCornerRadius="15dp"
-            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_height="match_parent"
+                android:paddingHorizontal="13dp"
+                android:paddingVertical="10dp">
 
                 <TextView
                     android:id="@+id/title"
+                    style="@style/MeetingScreenTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{post.title}"
-                    android:textAppearance="?attr/textAppearanceListItem" />
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/category_icon"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:contentDescription="post category"
+                    android:src="@drawable/baseline_local_fire_department_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHeight_percent="0.15"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintWidth_percent="0.15" />
 
                 <TextView
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
+                    android:id="@+id/post_date"
+                    style="@style/MeetingScreenDeadline"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{post.nickname}"
-                    android:textAppearance="?attr/textAppearanceListItemSecondary" />
-
-            </LinearLayout>
+                    android:deadline="@{post.deadline}"
+                    android:textAppearance="?attr/textAppearanceListItemSecondary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
