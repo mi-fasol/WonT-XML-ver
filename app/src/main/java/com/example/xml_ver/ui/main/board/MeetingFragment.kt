@@ -8,13 +8,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.xml_ver.R
+import com.example.xml_ver.adapter.PostAdapter
+import com.example.xml_ver.adapter.TodayPostAdapter
 import com.example.xml_ver.databinding.FragmentMeetingBinding
-import com.example.xml_ver.ui.adapter.PostAdapter
-import com.example.xml_ver.ui.adapter.TodayPostAdapter
 import com.example.xml_ver.viewModel.MainViewModel
 import com.example.xml_ver.viewModel.board.AcceptationViewModel
 import com.example.xml_ver.viewModel.board.MeetingViewModel
@@ -30,7 +28,6 @@ class MeetingFragment : Fragment() {
     private val acceptationViewModel: AcceptationViewModel by viewModels()
     private lateinit var postAdapter: PostAdapter
     private lateinit var todayPostAdapter: TodayPostAdapter
-    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +43,6 @@ class MeetingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
 
         setupRecyclerViews()
         setupToolbar(view)
@@ -59,7 +55,7 @@ class MeetingFragment : Fragment() {
     }
 
     private fun setupTodayRecyclerView() {
-        todayPostAdapter = TodayPostAdapter(navController)
+        todayPostAdapter = TodayPostAdapter()
         binding.todayPostView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = todayPostAdapter
@@ -68,7 +64,7 @@ class MeetingFragment : Fragment() {
 
     private fun setupPostRecyclerView() {
         postAdapter =
-            PostAdapter(postViewModel, acceptationViewModel, mainViewModel, navController)
+            PostAdapter(postViewModel, acceptationViewModel, mainViewModel)
         binding.postListView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postAdapter
@@ -76,9 +72,8 @@ class MeetingFragment : Fragment() {
     }
 
     private fun setupToolbar(view: View) {
-        val toolbar = view.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
-        toolbar.setNavigationOnClickListener {
-            findNavController().navigateUp()
+        binding.toolbar.setNavigationOnClickListener {
+            Navigation.findNavController(view).navigateUp()
         }
     }
 
