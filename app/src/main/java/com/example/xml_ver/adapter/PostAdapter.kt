@@ -1,4 +1,4 @@
-package com.example.xml_ver.ui.adapter
+package com.example.xml_ver.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -15,8 +15,7 @@ import com.example.xml_ver.viewModel.board.MeetingViewModel
 class PostAdapter(
     private val postViewModel: MeetingViewModel,
     private val acceptationViewModel: AcceptationViewModel,
-    private val mainViewModel: MainViewModel,
-    private val navController: NavController
+    private val mainViewModel: MainViewModel
 ) : ListAdapter<PostResponseModel, PostAdapter.PostViewHolder>(PostDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -33,7 +32,6 @@ class PostAdapter(
         fun bind(post: PostResponseModel) {
             binding.post = post
             binding.mainViewModel = mainViewModel
-            binding.navController = navController
             binding.executePendingBindings()
         }
     }

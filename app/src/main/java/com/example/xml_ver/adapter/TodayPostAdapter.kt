@@ -1,4 +1,4 @@
-package com.example.xml_ver.ui.adapter
+package com.example.xml_ver.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,6 @@ import com.example.xml_ver.databinding.ItemPostBinding
 import com.example.xml_ver.databinding.ItemTodayPostBinding
 
 class TodayPostAdapter(
-    private val navController: NavController
 ) : RecyclerView.Adapter<TodayPostAdapter.PostViewHolder>() {
 
     private var posts: List<PostResponseModel> = emptyList()

@@ -7,19 +7,53 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.xml_ver.viewModel.user.LoginViewModel" />
+            type="com.example.xml_ver.viewModel.board.ClubPostViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:padding="16dp">
+        android:background="@color/white">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/clubAppbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Club Fragment"
-            android:textSize="24sp" />
-    </RelativeLayout>
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:navigationIcon="@drawable/outline_arrow_back_ios_24"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="소모임 구하는 곳"
+                app:titleTextAppearance="@style/MainPageAppBar"
+                app:titleTextColor="@color/mainColor" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/club_search"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clubAppbar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/club_post_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="65dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/club_search" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
