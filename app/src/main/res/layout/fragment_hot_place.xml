@@ -37,6 +37,17 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <TextView
+            android:id="@+id/popular_text"
+            style="@style/HotPlaceScreenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="현재, 가장 인기 있는 핫플"
+            android:textColor="@color/mainGreyColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hot_place_app_bar" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/popular_hot_place_view"
             android:layout_width="match_parent"
@@ -44,16 +55,18 @@
             android:layout_marginBottom="65dp"
             android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintHeight_percent="0.33"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/hot_place_app_bar" />
+            app:layout_constraintTop_toBottomOf="@id/popular_text" />
 
         <TextView
-            android:id="@+id/above_hot_place_view"
+            android:id="@+id/hot_place_text"
+            style="@style/HotPlaceScreenTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="장소들.."
+            android:textColor="@color/mainGreyColor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/popular_hot_place_view" />
 
@@ -61,12 +74,13 @@
             android:id="@+id/hot_place_post_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginBottom="70dp"
             android:paddingHorizontal="15dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/above_hot_place_view"
+            app:layout_constraintTop_toBottomOf="@id/hot_place_text"
             app:spanCount="2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
