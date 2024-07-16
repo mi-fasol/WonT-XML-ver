@@ -44,4 +44,14 @@ object DateBindingAdapter {
             .error(R.drawable.dummy_image)
             .into(view)
     }
+
+    @JvmStatic
+    @BindingAdapter("android:hotBackground")
+    fun setHotPlaceCardBackground(view: ImageView, imageUrl: String?) {
+        Glide.with(view.context)
+            .load(imageUrl)
+            .placeholder(R.drawable.wont_icon)
+            .error(R.drawable.dummy_image)
+            .into(view)
+    }
 }
