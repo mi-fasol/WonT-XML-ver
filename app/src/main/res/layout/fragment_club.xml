@@ -5,6 +5,7 @@
     tools:context=".ui.main.ClubFragment">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.xml_ver.viewModel.board.ClubPostViewModel" />
@@ -40,8 +41,10 @@
             android:id="@+id/club_search"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@drawable/search_bar_background"
+            android:layout_marginHorizontal="15dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHeight_percent="0.06 "
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clubAppbar" />
 
