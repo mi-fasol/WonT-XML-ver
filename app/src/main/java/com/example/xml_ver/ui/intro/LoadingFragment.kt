@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
 import com.example.xml_ver.databinding.FragmentLoadingBinding
+import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.viewModel.MainViewModel
 import com.example.xml_ver.viewModel.user.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +70,7 @@ class LoadingFragment : Fragment() {
                     LoginViewModel.LoginUserState.SUCCESS -> {
                         val intent = Intent(context, MainActivity::class.java)
                         startActivity(intent)
+                        Log.d("미란 유저 정보", SharedPreferenceUtil(requireContext()).getUser().toString())
                     }
                     else -> {
                     }

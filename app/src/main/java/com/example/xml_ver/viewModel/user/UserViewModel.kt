@@ -73,7 +73,7 @@ class UserViewModel @Inject constructor(
                     SharedPreferenceUtil(context).setString("gender", responseUser.gender)
                     SharedPreferenceUtil(context).setString("major", responseUser.major)
                     SharedPreferenceUtil(context).setString("nickname", responseUser.nickname)
-                    Log.d("유저", responseUser.toString())
+                    Log.d("유저", SharedPreferenceUtil(context).getUser().toString())
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
                     Log.e("API Error", "에러 응답: $errorBody")

@@ -3,6 +3,7 @@ package com.example.xml_ver
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.xml_ver.databinding.ActivityMainBinding
@@ -12,6 +13,7 @@ import com.example.xml_ver.ui.main.board.MeetingFragment
 import com.example.xml_ver.ui.main.setting.MyPageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
