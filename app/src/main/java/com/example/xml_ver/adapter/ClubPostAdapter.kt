@@ -1,5 +1,6 @@
 package com.example.xml_ver.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -11,6 +12,26 @@ import com.example.xml_ver.viewModel.MainViewModel
 class ClubPostAdapter(
     private val mainViewModel: MainViewModel
 ) : ListAdapter<ClubPostResponseModel, ClubPostAdapter.PostViewHolder>(ClubPostDiffCallback()) {
+    private var originalList: List<ClubPostResponseModel> = emptyList()
+
+    override fun submitList(list: List<ClubPostResponseModel>?) {
+        if (list != null) {
+            originalList = list
+        }
+        super.submitList(list)
+    }
+
+    fun filter(query: String) {
+        val filteredList = if (query.isEmpty()) {
+            originalList
+        } else {
+            Log.d("미란 필터링", query)
+            originalList.filter {
+                it.title.contains(query, ignoreCase = true)
+            }
+        }
+        super.submitList(filteredList)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding =

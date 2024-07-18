@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.adapter.ClubPostAdapter
 import com.example.xml_ver.databinding.FragmentClubBinding
@@ -43,6 +42,7 @@ class ClubFragment : Fragment() {
 
         setupToolbar(view)
         setupClubRecyclerView()
+        setupSearchBar()
         getClubPostList()
     }
 
@@ -60,11 +60,24 @@ class ClubFragment : Fragment() {
         }
     }
 
+    private fun setupSearchBar() {
+        binding.clubSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                clubAdapter.filter(newText.orEmpty())
+                return true
+            }
+        })
+    }
+
     private fun getClubPostList() {
         viewLifecycleOwner.lifecycleScope.launch {
             clubPostViewModel.getClubPostList()
-            clubPostViewModel.clubPostList.collect {
-                clubAdapter.submitList(it)
+            clubPostViewModel.clubPostList.collect { posts ->
+                clubAdapter.submitList(posts)
             }
         }
     }
