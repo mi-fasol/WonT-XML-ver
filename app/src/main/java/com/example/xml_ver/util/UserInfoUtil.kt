@@ -31,3 +31,5 @@ val userGenderList = listOf(
 val userMajorList = listOf(
     "컴퓨터공학과", "소프트웨어공학과", "인공지능학과", "컴퓨터공학과", "소프트웨어공학과", "인공지능학과"
 )
+
+val myPageList = listOf("내가 작성한 글", "찜한 장소", "가고 싶은 모임", "가고 싶은 소모임")

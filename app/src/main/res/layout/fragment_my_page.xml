@@ -2,24 +2,128 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.MyPageFragment">
+    tools:context=".ui.main.HotPlaceFragment">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.example.xml_ver.viewModel.user.LoginViewModel" />
+            type="com.example.xml_ver.viewModel.board.HotPlacePostViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:padding="16dp">
+        android:background="@color/white">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/my_page_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:navigationIcon="@drawable/outline_arrow_back_ios_24"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="마이페이지"
+                app:titleTextAppearance="@style/MainPageAppBar"
+                app:titleTextColor="@color/mainColor" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/mainColor"
+            app:layout_constraintTop_toBottomOf="@id/my_page_app_bar" />
 
         <TextView
+            android:id="@+id/profile_text"
+            style="@style/MyPageProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Page Fragment"
-            android:textSize="24sp" />
-    </RelativeLayout>
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="10dp"
+            android:text="프로필"
+            android:textColor="@color/myBoardColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/my_page_app_bar" />
+
+        <ImageView
+            android:id="@+id/user_profile_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/user_dog"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_text"
+            app:layout_constraintWidth_percent="0.37" />
+
+        <TextView
+            android:id="@+id/user_major_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/sc_dream3"
+            android:text="컴퓨터공학과"
+            android:textColor="@color/myBoardColor"
+            android:textSize="12.5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_profile_image" />
+
+        <LinearLayout
+            android:id="@+id/my_page_linear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_major_text">
+
+            <ImageView
+                android:id="@+id/gender_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/gender_man" />
+
+            <TextView
+                android:id="@+id/my_page_nickname"
+                style="@style/MyPageNickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="미늉늉" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="40dp"
+            android:background="@color/mainColor"
+            app:layout_constraintTop_toBottomOf="@id/my_page_linear" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/myPageListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="65dp"
+            android:padding="16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.35" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
