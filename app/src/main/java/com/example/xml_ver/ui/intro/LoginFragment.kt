@@ -2,6 +2,8 @@ package com.example.xml_ver.ui.intro
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,19 +38,61 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.apply {
-            btnLogin.setOnClickListener { tryLogin() }
-//            viewLifecycleOwner.lifecycleScope.launch {
-//                loginViewModel.isValid.collect {
-//                    if(it) {
-//                        btnLogin.isEnabled = true
-//                    } else{
-//                        btnLogin.isClickable = false
-//                        btnLogin.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.mainGreyColor))
-//                    }
-//                }
-//            }
+        setupButton()
+        setButtonEnable()
+        setupEditTexts()
+    }
+
+    private fun setButtonEnable() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            loginViewModel.isValid.collect {
+                binding.loginButton.isEnabled = it
+                binding.loginButton.isClickable = it
+                if (it) {
+                    binding.loginButton.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.mainColor
+                        )
+                    )
+                } else {
+                    binding.loginButton.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.buttonDisabledColor
+                        )
+                    )
+                }
+            }
         }
+    }
+
+    private fun setupButton() {
+        binding.apply {
+            loginButton.setOnClickListener { tryLogin() }
+        }
+    }
+
+    private fun setupEditTexts() {
+        binding.studentIdField.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                loginViewModel.id.value = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.pwdField.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                loginViewModel.pwd.value = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
     private fun tryLogin() {

@@ -10,17 +10,18 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
+import com.example.xml_ver.adapter.SliderAdapter
 import com.example.xml_ver.databinding.FragmentUserRegisterBinding
 import com.example.xml_ver.util.userProfileList
 import com.example.xml_ver.viewModel.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -50,6 +51,10 @@ class UserRegisterFragment : Fragment() {
         }
         setButtonEnable()
         setupButtons()
+        setupEditText()
+    }
+
+    private fun setupEditText() {
         binding.nicknameField.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -143,6 +148,22 @@ class UserRegisterFragment : Fragment() {
             userViewModel.isValid.collect {
                 binding.registrationButton.isEnabled = it
                 binding.registrationButton.isClickable = it
+
+                if (it) {
+                    binding.registrationButton.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.mainColor
+                        )
+                    )
+                } else {
+                    binding.registrationButton.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.buttonDisabledColor
+                        )
+                    )
+                }
             }
         }
     }
