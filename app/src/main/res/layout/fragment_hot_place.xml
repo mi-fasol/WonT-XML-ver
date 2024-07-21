@@ -29,11 +29,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/white"
-                app:navigationIcon="@drawable/outline_arrow_back_ios_24"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:theme="?attr/actionBarTheme"
                 app:title="핫플레이스"
                 app:titleTextAppearance="@style/MainPageAppBar"
-                app:titleTextColor="@color/mainColor" />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:titleTextColor="@color/mainColor"
+                app:menu="@menu/menu_main_toolbar" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
