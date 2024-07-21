@@ -56,7 +56,7 @@ class LoadingFragment : Fragment() {
 
     }
 
-    fun checkLoginState() {
+    private fun checkLoginState() {
         viewLifecycleOwner.lifecycleScope.launch {
             delay(1500)
             loginViewModel.checkUserExists()
@@ -83,12 +83,11 @@ class LoadingFragment : Fragment() {
                         }
                         val intent = Intent(context, MainActivity::class.java)
                         startActivity(intent)
-                        Log.d(
-                            "미란 유저 정보",
-                            SharedPreferenceUtil(requireContext()).getUser().toString()
-                        )
+                        requireActivity().finish()
                     }
+
                     else -> {
+
                     }
                 }
             }

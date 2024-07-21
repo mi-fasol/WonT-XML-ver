@@ -117,6 +117,7 @@ class LoginFragment : Fragment() {
                             LoginViewModel.LoginUserState.SUCCESS -> {
                                 val intent = Intent(context, MainActivity::class.java)
                                 startActivity(intent)
+                                requireActivity().finish()
                             }
 
                             else -> {

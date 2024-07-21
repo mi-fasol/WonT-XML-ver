@@ -135,6 +135,7 @@ class UserRegisterFragment : Fragment() {
                             if (isSuccess) {
                                 val intent = Intent(context, MainActivity::class.java)
                                 startActivity(intent)
+                                requireActivity().finish()
                             }
                         }
                     }
