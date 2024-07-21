@@ -2,6 +2,7 @@ package com.example.xml_ver.ui.main.board
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
@@ -10,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.xml_ver.R
 import com.example.xml_ver.adapter.ClubPostAdapter
 import com.example.xml_ver.databinding.FragmentClubBinding
 import com.example.xml_ver.viewModel.MainViewModel
@@ -55,8 +57,17 @@ class ClubFragment : Fragment() {
     }
 
     private fun setupToolbar(view: View) {
-        binding.toolbar.setNavigationOnClickListener {
-            Navigation.findNavController(view).navigateUp()
+        binding.apply {
+            binding.toolbar.setOnMenuItemClickListener { menuItem: MenuItem ->
+                when (menuItem.itemId) {
+                    R.id.chat_list_page_navigation -> {
+                        Navigation.findNavController(view).popBackStack()
+                        true
+                    }
+
+                    else -> false
+                }
+            }
         }
     }
 

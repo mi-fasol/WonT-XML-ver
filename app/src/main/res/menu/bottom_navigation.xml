@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/navigation_meeting"
         android:icon="@drawable/meeting_bottom_icon"
-        android:title="Meeting" />
+        android:title=""
+        app:showAsAction="always" />
     <item
         android:id="@+id/navigation_club"
         android:icon="@drawable/club_bottom_icon"
-        android:title="Club" />
+        android:title=""
+        app:showAsAction="always" />
     <item
         android:id="@+id/navigation_hot"
         android:icon="@drawable/hotplace_bottom_icon"
-        android:title="Hot Place" />
+        android:title=""
+        app:showAsAction="always" />
     <item
         android:id="@+id/navigation_my_page"
-        android:icon="@drawable/round_dog"
-        android:title="My Page" />
+        android:icon="@drawable/hotplace_bottom_icon"
+        android:title=""
+        app:showAsAction="always" />
 </menu>
-

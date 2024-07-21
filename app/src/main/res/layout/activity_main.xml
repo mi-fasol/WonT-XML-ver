@@ -18,8 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:background="?android:attr/windowBackground"
-        app:navGraph="@navigation/main_nav_graph"
-        app:menu="@menu/bottom_navigation" />
+        android:background="@drawable/bottom_nav_background"
+        style="@style/CustomBottomNavigationView"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_navigation"
+        app:navGraph="@navigation/main_nav_graph" />
 
 </RelativeLayout>
