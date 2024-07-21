@@ -18,64 +18,57 @@
             type="androidx.navigation.NavController" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        tools:context=".ui.board.MeetingFragment">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/meetingAppbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/meetingAppbar"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                android:theme="?attr/actionBarTheme"
+                app:menu="@menu/menu_main_toolbar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="친구 구하는 곳"
+                app:titleTextAppearance="@style/MainPageAppBar"
+                app:titleTextColor="@color/mainColor" />
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="@color/white"
-                    android:theme="?attr/actionBarTheme"
-                    app:title="친구 구하는 곳"
-                    app:titleTextAppearance="@style/MainPageAppBar"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:titleTextColor="@color/mainColor"
-                    app:menu="@menu/menu_main_toolbar" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-            </com.google.android.material.appbar.AppBarLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/todayPostView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="0dp"
+                android:padding="5dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintBottom_toTopOf="@id/postListView"
+                app:layout_constraintHeight_percent="0.28"
+                app:layout_constraintStart_toStartOf="parent" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/todayPostView"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:padding="5dp"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/postListView"
-                    app:layout_constraintHeight_percent="0.28" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/postListView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="65dp"
+                android:padding="16dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHeight_percent="0.62" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/postListView"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginBottom="65dp"
-                    android:padding="16dp"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHeight_percent="0.62" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

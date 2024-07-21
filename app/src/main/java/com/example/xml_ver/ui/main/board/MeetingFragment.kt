@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.PostAdapter
@@ -70,6 +71,12 @@ class MeetingFragment : Fragment() {
         binding.postListView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postAdapter
+        }
+
+        postAdapter.setOnItemClickListener { post ->
+            val action =
+                MeetingFragmentDirections.actionMeetingFragmentToMeetingDetailFragment(post.pId)
+            NavHostFragment.findNavController(this).navigate(action)
         }
     }
 

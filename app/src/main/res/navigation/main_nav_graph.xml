@@ -7,7 +7,15 @@
     <fragment
         android:id="@+id/meetingFragment"
         android:name="com.example.xml_ver.ui.main.board.MeetingFragment"
-        tools:layout="@layout/fragment_meeting" />
+        tools:layout="@layout/fragment_meeting">
+        <action
+            android:id="@+id/action_meetingFragment_to_meetingDetailFragment"
+            app:destination="@id/meetingDetailFragment">
+            <argument
+                android:name="pId"
+                app:argType="integer" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/clubFragment"
@@ -23,4 +31,15 @@
         android:id="@+id/myPageFragment"
         android:name="com.example.xml_ver.ui.main.setting.MyPageFragment"
         tools:layout="@layout/fragment_my_page" />
+
+    <fragment
+        android:id="@+id/meetingDetailFragment"
+        android:name="com.example.xml_ver.ui.main.board.detail.MeetingDetailFragment"
+        tools:layout="@layout/fragment_meeting_detail">
+        <argument
+            android:name="pId"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
+
 </navigation>

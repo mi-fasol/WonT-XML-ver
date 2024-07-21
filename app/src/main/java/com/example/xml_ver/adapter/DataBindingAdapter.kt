@@ -54,4 +54,20 @@ object DateBindingAdapter {
             .error(R.drawable.dummy_image)
             .into(view)
     }
+
+    @JvmStatic
+    @BindingAdapter("android:profile_major")
+    fun setProfileMajor(view: TextView, major: String?) {
+        major?.let {
+            view.text = "${major} / "
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:profile_deadline")
+    fun setProfileDeadline(view: TextView, deadline: String?) {
+        deadline?.let {
+            view.text = " / $deadline"
+        }
+    }
 }

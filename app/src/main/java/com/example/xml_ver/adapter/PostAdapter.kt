@@ -18,6 +18,12 @@ class PostAdapter(
     private val mainViewModel: MainViewModel
 ) : ListAdapter<PostResponseModel, PostAdapter.PostViewHolder>(PostDiffCallback()) {
 
+    private var onItemClickListener: ((PostResponseModel) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (PostResponseModel) -> Unit) {
+        onItemClickListener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostViewHolder(binding)
@@ -28,11 +34,16 @@ class PostAdapter(
         holder.bind(post)
     }
 
-    inner class PostViewHolder(private val binding: ItemPostBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PostViewHolder(private val binding: ItemPostBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(post: PostResponseModel) {
             binding.post = post
             binding.mainViewModel = mainViewModel
             binding.executePendingBindings()
+
+            binding.root.setOnClickListener {
+                onItemClickListener?.invoke(post)
+            }
         }
     }
 }
