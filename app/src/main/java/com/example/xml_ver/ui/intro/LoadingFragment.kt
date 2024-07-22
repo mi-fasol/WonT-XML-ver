@@ -81,7 +81,7 @@ class LoadingFragment : Fragment() {
                                 )
                             )
                         }
-                        val intent = Intent(context, MainActivity::class.java)
+                        val intent = Intent(requireContext(), MainActivity::class.java)
                         startActivity(intent)
                         requireActivity().finish()
                     }

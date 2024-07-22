@@ -15,6 +15,7 @@ import com.example.xml_ver.databinding.ActivityMainBinding
 import com.example.xml_ver.ui.main.board.ClubFragment
 import com.example.xml_ver.ui.main.board.HotPlaceFragment
 import com.example.xml_ver.ui.main.board.MeetingFragment
+import com.example.xml_ver.ui.main.board.detail.MeetingDetailFragment
 import com.example.xml_ver.ui.main.setting.MyPageFragment
 import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.util.userMyPageImageList
