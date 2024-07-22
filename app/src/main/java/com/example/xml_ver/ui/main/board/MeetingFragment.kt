@@ -75,7 +75,10 @@ class MeetingFragment : Fragment() {
 
         postAdapter.setOnItemClickListener { post ->
             val action =
-                MeetingFragmentDirections.actionMeetingFragmentToMeetingDetailFragment(post.pId)
+                MeetingFragmentDirections.actionMeetingFragmentToMeetingDetailFragment(
+                    post.pId,
+                    post.nickname
+                )
             NavHostFragment.findNavController(this).navigate(action)
         }
     }
@@ -85,7 +88,7 @@ class MeetingFragment : Fragment() {
             binding.toolbar.setOnMenuItemClickListener { menuItem: MenuItem ->
                 when (menuItem.itemId) {
                     R.id.chat_list_page_navigation -> {
-                        Navigation.findNavController(view).popBackStack()
+                        NavHostFragment.findNavController(this@MeetingFragment).popBackStack()
                         true
                     }
 

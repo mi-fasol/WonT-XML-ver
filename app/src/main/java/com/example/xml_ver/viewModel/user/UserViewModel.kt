@@ -37,6 +37,9 @@ class UserViewModel @Inject constructor(
     private val _user = MutableStateFlow<UserResponseModel?>(null)
     val user: StateFlow<UserResponseModel?> = _user
 
+    private val _userByNickname = MutableStateFlow<UserResponseModel?>(null)
+    val userByNickname: StateFlow<UserResponseModel?> = _userByNickname
+
     private val _otherPerson = MutableStateFlow<UserResponseModel?>(null)
     val otherPerson: StateFlow<UserResponseModel?> = _otherPerson
 
@@ -118,10 +121,8 @@ class UserViewModel @Inject constructor(
                 val response = repository.getUserByNickname(nickname)
                 if (response.isSuccessful && response.body() != null) {
                     val responseUser = response.body()
-                    user = responseUser
-                    _fetchUserState.value = Resource.success(response.body())
-                    SharedPreferenceUtil(context).setUser(responseUser!!)
-                    Log.d("유저", responseUser.toString())
+                    _userByNickname.value = responseUser
+                    _fetchUserState.value = Resource.success(responseUser)
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
                     Log.e("API Error", "에러 응답: $errorBody")

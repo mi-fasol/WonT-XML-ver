@@ -2,7 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/wish_start_button"
+        android:id="@+id/wish_star_button"
         android:icon="@drawable/wish_meeting_icon"
         android:title=""
         app:titleTextAppearance="@style/MainPageAppBar"
