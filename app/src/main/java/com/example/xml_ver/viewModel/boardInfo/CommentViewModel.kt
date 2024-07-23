@@ -1,4 +1,4 @@
-package com.example.haemo_kotlin.viewModel.boardInfo
+package com.example.xml_ver.viewModel.boardInfo
 
 import android.content.Context
 import android.util.Log

@@ -103,11 +103,11 @@
                         android:layout_height="wrap_content"
                         android:profile_major="@{user.major}" />
 
-                    <TextView
-                        style="@style/PostUserInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="❤️" />
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/baseline_favorite_24"
+                        app:tint="@color/pinkMainColor" />
 
                     <TextView
                         style="@style/PostUserInfo"
@@ -122,8 +122,8 @@
                 style="@style/BoardDetailTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="25dp"
                 android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="25dp"
                 android:text="@{post.title}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/writer_image" />
@@ -133,21 +133,44 @@
                 style="@style/BoardDetailContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="15dp"
                 android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="15dp"
                 android:text="@{post.title}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/post_title" />
 
-            <View
-               android:layout_height="1dp"
-                android:layout_width="match_parent"
-                android:background="@color/dividerColor"
-                app:layout_constraintTop_toBottomOf="@id/post_content"
-                app:layout_constraintStart_toStartOf="parent"
+            <TextView
+                android:id="@+id/attend_info"
+                style="@style/BoardDetailAttendeeInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="23dp"
+                android:text="4/4"
+                android:textColor="@color/mainColor"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginVertical="25dp"
-                />
+                app:layout_constraintTop_toBottomOf="@id/post_content" />
+
+            <Button
+                android:id="@+id/attend_button"
+                style="@style/BoardDetailAttendButtonText"
+                android:layout_width="85dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/mainColor"
+                android:text="참여하기"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.05"
+                app:layout_constraintTop_toBottomOf="@id/attend_info" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="15dp"
+                android:background="@color/dividerColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/attend_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -26,11 +26,13 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
-        style="@style/CustomBottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bottom_nav_background"
+        app:itemActiveIndicatorStyle="@null"
+
+        app:itemIconTint="@color/bottom_nav_item_color"
         app:menu="@menu/bottom_navigation"
         app:navGraph="@navigation/main_nav_graph" />
 

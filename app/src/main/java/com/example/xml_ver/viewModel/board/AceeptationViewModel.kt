@@ -51,6 +51,8 @@ class AcceptationViewModel @Inject constructor(
         MutableStateFlow<Resource<Boolean?>>(Resource.loading(null))
     val allowUserState: StateFlow<Resource<Boolean?>> = _allowUserState.asStateFlow()
 
+    var nowAttendees = MutableStateFlow(0)
+
     suspend fun getAcceptationByPId(pId: Int) {
         _myAcceptState.value = AcceptState.NONE
         viewModelScope.launch {
@@ -58,18 +60,20 @@ class AcceptationViewModel @Inject constructor(
                 val response = acceptationRepository.getJoinUserByPId(pId)
                 if (response.isSuccessful && response.body() != null) {
                     val acceptList = response.body()
-                    _attendeeModelList.value[pId] = acceptList!!
-                    _attendeeModelList.value[pId]!!.forEach {
-                        if (
-                            it.uId == SharedPreferenceUtil(context).getInt("uId", 0)) {
-                            if (it.acceptation) {
-                                _myAcceptState.value = AcceptState.JOIN
+                    val currentList = _attendeeModelList.value.toMutableMap()
+                    currentList[pId] = acceptList ?: listOf()
+                    _attendeeModelList.value = currentList
+                    _attendeeModelList.value[pId]?.forEach {
+                        if (it.uId == SharedPreferenceUtil(context).getInt("uId", 0)) {
+                            _myAcceptState.value = if (it.acceptation) {
+                                AcceptState.JOIN
                             } else {
-                                _myAcceptState.value = AcceptState.REQUEST
+                                AcceptState.REQUEST
                             }
                         }
                     }
-                    Log.d("미란 참여 테이블", acceptationList.value[pId].toString())
+
+                    Log.d("미란 참여 테이블", _attendeeModelList.value[pId].toString())
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
                     Log.e("API Error", "포스트 하나 에러 응답: $errorBody")
@@ -81,7 +85,6 @@ class AcceptationViewModel @Inject constructor(
     }
 
     suspend fun getAttendeeByPId(pId: Int) {
-        _myAcceptState.value = AcceptState.NONE
         viewModelScope.launch {
             try {
                 val response = acceptationRepository.getAttendeeListByPId(pId)
@@ -89,6 +92,9 @@ class AcceptationViewModel @Inject constructor(
                     val acceptList = response.body()
                     _attendeeList.value[pId] = acceptList!!
                     Log.d("미란 참여 유저", _attendeeList.value[pId].toString())
+                    if (_attendeeList.value[pId] != null) {
+                        nowAttendees.value = _attendeeList.value[pId]!!.size
+                    }
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
                     Log.e("API Error", "포스트 하나 에러 응답: $errorBody")
@@ -99,7 +105,17 @@ class AcceptationViewModel @Inject constructor(
         }
     }
 
-    fun sendAcceptationRequest(pId: Int) {
+    fun changeAcceptationRequest(pId: Int) {
+        if(_myAcceptState.value == AcceptState.NONE) {
+            Log.d("미란", "요기")
+            sendAcceptationRequest(pId)
+        } else {
+            Log.d("미란", "죠기")
+            deleteAcceptationRequest(pId)
+        }
+    }
+
+    private fun sendAcceptationRequest(pId: Int) {
         val accept = AcceptationModel(
             pId = pId,
             uId = SharedPreferenceUtil(context).getInt("uId", 0),
@@ -113,6 +129,7 @@ class AcceptationViewModel @Inject constructor(
                 if (response.isSuccessful && response.body() != null) {
                     _acceptRegisterState.value = Resource.success(response.body())
                     Log.d("참여 요청 완료", response.body().toString())
+                    _myAcceptState.value = AcceptState.REQUEST
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
                     Log.e("API Error", "에러 응답: $errorBody")
@@ -123,7 +140,7 @@ class AcceptationViewModel @Inject constructor(
         }
     }
 
-    fun deleteAcceptationRequest(pId: Int) {
+    private fun deleteAcceptationRequest(pId: Int) {
         val uId = SharedPreferenceUtil(context).getInt("uId", 0)
         viewModelScope.launch {
             _acceptDeleteState.value = Resource.loading(null)
@@ -131,6 +148,7 @@ class AcceptationViewModel @Inject constructor(
                 val response = acceptationRepository.deleteAcceptRequest(uId, pId)
                 if (response.isSuccessful && response.body() != null) {
                     _acceptDeleteState.value = Resource.success(response.body())
+                    _myAcceptState.value = AcceptState.NONE
                     Log.d("참여 요청 완료", response.body().toString())
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
