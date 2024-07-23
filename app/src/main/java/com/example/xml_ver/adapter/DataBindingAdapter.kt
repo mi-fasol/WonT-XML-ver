@@ -6,7 +6,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.xml_ver.R
 import com.example.xml_ver.util.convertDate
-import java.text.SimpleDateFormat
+import com.example.xml_ver.util.userMyPageImageList
 import java.util.*
 
 object DateBindingAdapter {
@@ -68,6 +68,16 @@ object DateBindingAdapter {
     fun setProfileDeadline(view: TextView, deadline: String?) {
         deadline?.let {
             view.text = " / $deadline"
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:userImage")
+    fun setUserImage(imageView: ImageView, userImageId: Int?) {
+        if (userImageId != null) {
+            imageView.setImageResource(userMyPageImageList[userImageId])
+        } else {
+            imageView.setImageResource(R.drawable.round_dog)
         }
     }
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?><!-- item_comment.xml -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="comment"
+            type="com.example.xml_ver.data.retrofit.comment.comment.CommentResponseModel" />
+
+        <variable
+            name="user"
+            type="com.example.xml_ver.data.retrofit.user.UserResponseModel" />
+
+        <variable
+            name="mainViewModel"
+            type="com.example.xml_ver.viewModel.MainViewModel" />
+
+        <variable
+            name="navController"
+            type="androidx.navigation.NavController" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp">
+
+        <ImageView
+            android:id="@+id/user_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="10dp"
+            android:userImage="@{user.userImage}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/user_icon"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/comment_user_nickname"
+                style="@style/CommentUserNickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="@{comment.nickname}"
+                android:textColor="@color/mainTextColor"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/comment_content"
+                style="@style/CommentContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{comment.content}"
+                android:textColor="@color/mainTextColor" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/reply_button"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:background="@drawable/reply_button_background"
+            android:clickable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.15">
+
+            <TextView
+                style="@style/ReplyButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="답글"
+                android:textColor="@color/meetingDetailButtonTextColor" />
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

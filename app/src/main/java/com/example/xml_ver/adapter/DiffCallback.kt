@@ -1,6 +1,7 @@
 package com.example.xml_ver.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.xml_ver.data.retrofit.comment.comment.CommentResponseModel
 import com.example.xml_ver.data.retrofit.post.ClubPostResponseModel
 import com.example.xml_ver.data.retrofit.post.HotPlaceResponsePostModel
 import com.example.xml_ver.data.retrofit.post.PostResponseModel
@@ -45,6 +46,22 @@ class HotPlacePostDiffCallback : DiffUtil.ItemCallback<HotPlaceResponsePostModel
     override fun areContentsTheSame(
         oldItem: HotPlaceResponsePostModel,
         newItem: HotPlaceResponsePostModel
+    ): Boolean {
+        return oldItem == newItem
+    }
+}
+
+class CommentDiffCallback : DiffUtil.ItemCallback<CommentResponseModel>() {
+    override fun areItemsTheSame(
+        oldItem: CommentResponseModel,
+        newItem: CommentResponseModel
+    ): Boolean {
+        return oldItem.cId == newItem.cId
+    }
+
+    override fun areContentsTheSame(
+        oldItem: CommentResponseModel,
+        newItem: CommentResponseModel
     ): Boolean {
         return oldItem == newItem
     }

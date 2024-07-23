@@ -18,13 +18,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.R
+import com.example.xml_ver.adapter.CommentAdapter
 import com.example.xml_ver.databinding.FragmentMeetingDetailBinding
 import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.viewModel.MainViewModel
 import com.example.xml_ver.viewModel.board.AcceptState
 import com.example.xml_ver.viewModel.board.AcceptationViewModel
 import com.example.xml_ver.viewModel.board.MeetingViewModel
+import com.example.xml_ver.viewModel.boardInfo.CommentViewModel
 import com.example.xml_ver.viewModel.boardInfo.WishViewModel
 import com.example.xml_ver.viewModel.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,8 +40,10 @@ class MeetingDetailFragment : Fragment() {
     private val postViewModel: MeetingViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
+    private val commentViewModel: CommentViewModel by viewModels()
     private val acceptationViewModel: AcceptationViewModel by viewModels()
     private val wishViewModel: WishViewModel by viewModels()
+    private lateinit var commentAdapter: CommentAdapter
     private val args: MeetingDetailFragmentArgs by navArgs()
     private var pId = 0
     private var nickname = ""
@@ -67,6 +72,9 @@ class MeetingDetailFragment : Fragment() {
         setupToolbar()
         getPostInfo()
         getPostWriterInfo()
+        setupCommentRecyclerView()
+        getCommentUserList()
+        getCommentList()
     }
 
     private fun getPostInfo() {
@@ -152,6 +160,37 @@ class MeetingDetailFragment : Fragment() {
 
     private fun updateAttendeeInfo(size: Int) {
         binding.attendInfo.text = "$size/${binding.post!!.person}"
+    }
+
+    private fun setupCommentRecyclerView() {
+        commentAdapter =
+            CommentAdapter(mainViewModel, acceptationViewModel, postViewModel)
+        binding.commentRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = commentAdapter
+        }
+
+        commentAdapter.setOnReplyClickListener {
+            Log.d("미란", "냠냠")
+        }
+    }
+
+    private fun getCommentList() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            commentViewModel.getCommentListByPId(pId, 1)
+            commentViewModel.commentList.collect {
+                commentAdapter.submitList(it)
+            }
+        }
+    }
+
+    private fun getCommentUserList() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            commentViewModel.getCommentUser(pId, 1)
+            commentViewModel.userList.collect {
+                commentAdapter.updateUserList(it)
+            }
+        }
     }
 
     private fun updateAttendButton(state: Boolean, person: Int) {
