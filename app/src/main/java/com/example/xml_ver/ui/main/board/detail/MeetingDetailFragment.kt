@@ -21,6 +21,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.CommentAdapter
+import com.example.xml_ver.adapter.ReplyAdapter
 import com.example.xml_ver.databinding.FragmentMeetingDetailBinding
 import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.viewModel.MainViewModel
@@ -44,6 +45,7 @@ class MeetingDetailFragment : Fragment() {
     private val acceptationViewModel: AcceptationViewModel by viewModels()
     private val wishViewModel: WishViewModel by viewModels()
     private lateinit var commentAdapter: CommentAdapter
+    private lateinit var replyAdapter: ReplyAdapter
     private val args: MeetingDetailFragmentArgs by navArgs()
     private var pId = 0
     private var nickname = ""
@@ -163,23 +165,24 @@ class MeetingDetailFragment : Fragment() {
     }
 
     private fun setupCommentRecyclerView() {
-        commentAdapter =
-            CommentAdapter(mainViewModel, acceptationViewModel, postViewModel)
+        commentAdapter = CommentAdapter(mainViewModel, acceptationViewModel, postViewModel)
         binding.commentRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = commentAdapter
         }
 
         commentAdapter.setOnReplyClickListener {
-            Log.d("미란", "냠냠")
         }
     }
 
     private fun getCommentList() {
         viewLifecycleOwner.lifecycleScope.launch {
             commentViewModel.getCommentListByPId(pId, 1)
-            commentViewModel.commentList.collect {
-                commentAdapter.submitList(it)
+            commentViewModel.commentList.collect { comments ->
+                commentAdapter.submitList(comments)
+                comments.forEach { comment ->
+                    getReplyList(comment.cId)
+                }
             }
         }
     }
@@ -189,6 +192,15 @@ class MeetingDetailFragment : Fragment() {
             commentViewModel.getCommentUser(pId, 1)
             commentViewModel.userList.collect {
                 commentAdapter.updateUserList(it)
+            }
+        }
+    }
+
+    private fun getReplyList(cId: Int) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            commentViewModel.getReplyListByCId(cId, 1)
+            commentViewModel.replyList.collect { replies ->
+                commentAdapter.updateReplies(cId, replies[cId] ?: emptyList())
             }
         }
     }

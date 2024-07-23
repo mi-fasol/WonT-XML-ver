@@ -182,8 +182,11 @@ class CommentViewModel @Inject constructor(
                 if (response.isSuccessful && response.body() != null) {
                     val replyList = response.body()
                     replyList?.let { list ->
-                        _replyList.value[cId] = list
+                        val currentMap = _replyList.value.toMutableMap()
+                        currentMap[cId] = list
+                        _replyList.value = currentMap
                     }
+                    Log.d("미란 대댓글", _replyList.value[cId].toString())
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
                     Log.e("API Error", "포스트 하나 에러 응답: $errorBody")
@@ -193,6 +196,7 @@ class CommentViewModel @Inject constructor(
             }
         }
     }
+
 
     suspend fun getReplyUser(cId: Int, type: Int) {
         viewModelScope.launch {
