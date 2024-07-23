@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.CommentAdapter
 import com.example.xml_ver.adapter.ReplyAdapter
@@ -77,6 +78,8 @@ class MeetingDetailFragment : Fragment() {
         setupCommentRecyclerView()
         getCommentUserList()
         getCommentList()
+
+        (activity as MainActivity).hideBottomNavigation()
     }
 
     private fun getPostInfo() {
@@ -105,6 +108,7 @@ class MeetingDetailFragment : Fragment() {
     private fun setupToolbar() {
         binding.toolbar.setNavigationOnClickListener {
             NavHostFragment.findNavController(this).popBackStack()
+            (activity as MainActivity).showBottomNavigation()
         }
 
         binding.toolbar.setOnMenuItemClickListener { menuItem: MenuItem ->
@@ -113,7 +117,6 @@ class MeetingDetailFragment : Fragment() {
                     viewLifecycleOwner.lifecycleScope.launch {
                         wishViewModel.changeWish(pId, 1, wished)
                         wished = !wished
-
                         updateStarButtonColor(menuItem)
                     }
                     true
