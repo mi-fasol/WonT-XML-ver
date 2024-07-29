@@ -42,22 +42,22 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_meeting -> {
-                    loadFragment(MeetingFragment())
+                    navController.navigate(R.id.meetingFragment)
                     true
                 }
 
                 R.id.navigation_club -> {
-                    loadFragment(ClubFragment())
+                    navController.navigate(R.id.clubFragment)
                     true
                 }
 
                 R.id.navigation_hot -> {
-                    loadFragment(HotPlaceFragment())
+                    navController.navigate(R.id.hotPlaceFragment)
                     true
                 }
 
                 R.id.navigation_my_page -> {
-                    loadFragment(MyPageFragment())
+                    navController.navigate(R.id.myPageFragment)
                     true
                 }
 
@@ -72,12 +72,6 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             bottomNavigationView.selectedItemId = R.id.navigation_meeting
         }
-    }
-
-    private fun loadFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_nav_host_fragment, fragment)
-            .commit()
     }
 
     fun hideBottomNavigation() {

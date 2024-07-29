@@ -23,7 +23,18 @@
     <fragment
         android:id="@+id/clubFragment"
         android:name="com.example.xml_ver.ui.main.board.ClubFragment"
-        tools:layout="@layout/fragment_club" />
+        tools:layout="@layout/fragment_club">
+        <action
+            android:id="@+id/action_clubFragment_to_clubDetailFragment"
+            app:destination="@id/clubDetailFragment">
+            <argument
+                android:name="pId"
+                app:argType="integer" />
+            <argument
+                android:name="nickname"
+                app:argType="string" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/hotPlaceFragment"
@@ -39,6 +50,21 @@
         android:id="@+id/meetingDetailFragment"
         android:name="com.example.xml_ver.ui.main.board.detail.MeetingDetailFragment"
         tools:layout="@layout/fragment_meeting_detail">
+        <argument
+            android:name="pId"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <argument
+            android:name="nickname"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/clubDetailFragment"
+        android:name="com.example.xml_ver.ui.main.board.detail.ClubDetailFragment"
+        tools:layout="@layout/fragment_club_detail">
         <argument
             android:name="pId"
             android:defaultValue="0"

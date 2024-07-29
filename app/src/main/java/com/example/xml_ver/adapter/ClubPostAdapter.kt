@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.xml_ver.data.retrofit.post.ClubPostResponseModel
+import com.example.xml_ver.data.retrofit.post.PostResponseModel
 import com.example.xml_ver.databinding.ItemClubPostBinding
 import com.example.xml_ver.viewModel.MainViewModel
 
@@ -13,6 +14,12 @@ class ClubPostAdapter(
     private val mainViewModel: MainViewModel
 ) : ListAdapter<ClubPostResponseModel, ClubPostAdapter.PostViewHolder>(ClubPostDiffCallback()) {
     private var originalList: List<ClubPostResponseModel> = emptyList()
+
+    private var onItemClickListener: ((ClubPostResponseModel) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (ClubPostResponseModel) -> Unit) {
+        onItemClickListener = listener
+    }
 
     override fun submitList(list: List<ClubPostResponseModel>?) {
         if (list != null) {
@@ -50,6 +57,10 @@ class ClubPostAdapter(
             binding.clubPost = post
             binding.mainViewModel = mainViewModel
             binding.executePendingBindings()
+
+            binding.root.setOnClickListener {
+                onItemClickListener?.invoke(post)
+            }
         }
     }
 }

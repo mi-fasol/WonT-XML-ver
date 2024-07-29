@@ -15,8 +15,6 @@ import com.example.xml_ver.viewModel.board.MeetingViewModel
 
 class CommentAdapter(
     private val mainViewModel: MainViewModel,
-    private val acceptationViewModel: AcceptationViewModel,
-    private val meetingViewModel: MeetingViewModel
 ) : ListAdapter<CommentResponseModel, CommentAdapter.CommentViewHolder>(CommentDiffCallback()) {
 
     private var onReplyClickListener: ((CommentResponseModel) -> Unit)? = null

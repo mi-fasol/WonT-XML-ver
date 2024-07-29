@@ -1,6 +1,7 @@
 package com.example.xml_ver.ui.main.board
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.ClubPostAdapter
@@ -53,6 +55,16 @@ class ClubFragment : Fragment() {
         binding.clubPostView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = clubAdapter
+        }
+
+        clubAdapter.setOnItemClickListener { post ->
+            Log.d("미란", "눌렸음")
+            val action =
+                ClubFragmentDirections.actionClubFragmentToClubDetailFragment(
+                    post.pId,
+                    post.nickname
+                )
+            NavHostFragment.findNavController(this).navigate(action)
         }
     }
 
