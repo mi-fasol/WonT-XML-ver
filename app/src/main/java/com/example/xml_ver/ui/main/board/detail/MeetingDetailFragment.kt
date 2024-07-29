@@ -3,6 +3,8 @@ package com.example.xml_ver.ui.main.board.detail
 import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -22,7 +24,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.CommentAdapter
-import com.example.xml_ver.adapter.ReplyAdapter
 import com.example.xml_ver.databinding.FragmentMeetingDetailBinding
 import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.viewModel.MainViewModel
@@ -74,6 +75,8 @@ class MeetingDetailFragment : Fragment() {
         setupToolbar()
         getPostInfo()
         getPostWriterInfo()
+        setupEditText()
+        setupButton()
         setupCommentRecyclerView()
         getCommentUserList()
         getCommentList()
@@ -99,6 +102,39 @@ class MeetingDetailFragment : Fragment() {
             userViewModel.getUserByNickname(nickname)
             userViewModel.userByNickname.collect {
                 binding.user = it
+            }
+        }
+    }
+
+    private fun setupButton() {
+        binding.apply {
+            commentSendButton.setOnClickListener {
+                sendComment()
+            }
+        }
+    }
+
+    private fun sendComment() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            commentViewModel.isReply.collect {
+                if (it) {
+                    commentViewModel.commentId.collect { cId ->
+                        commentViewModel.registerReply(
+                            binding.commentEditText.text.toString(),
+                            cId,
+                            1
+                        )
+                    }
+                } else {
+                    commentViewModel.registerComment(
+                        binding.commentEditText.text.toString(),
+                        pId,
+                        1
+                    )
+                }
+                binding.commentEditText.text.clear()
+                commentViewModel.isReply.value = false
+                commentViewModel.commentId.value = 0
             }
         }
     }
@@ -162,18 +198,28 @@ class MeetingDetailFragment : Fragment() {
         }
     }
 
+    private fun setupEditText() {
+        binding.commentEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                commentViewModel.content.value = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+
     private fun updateAttendeeInfo(size: Int) {
         binding.attendInfo.text = "$size/${binding.post!!.person}"
     }
 
     private fun setupCommentRecyclerView() {
-        commentAdapter = CommentAdapter(mainViewModel)
+        commentAdapter = CommentAdapter(mainViewModel, commentViewModel)
+
         binding.commentRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = commentAdapter
-        }
-
-        commentAdapter.setOnReplyClickListener {
         }
     }
 

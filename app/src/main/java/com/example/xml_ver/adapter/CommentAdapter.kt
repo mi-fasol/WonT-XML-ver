@@ -1,5 +1,6 @@
 package com.example.xml_ver.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,9 +13,11 @@ import com.example.xml_ver.databinding.ItemCommentBinding
 import com.example.xml_ver.viewModel.MainViewModel
 import com.example.xml_ver.viewModel.board.AcceptationViewModel
 import com.example.xml_ver.viewModel.board.MeetingViewModel
+import com.example.xml_ver.viewModel.boardInfo.CommentViewModel
 
 class CommentAdapter(
     private val mainViewModel: MainViewModel,
+    private val commentViewModel: CommentViewModel
 ) : ListAdapter<CommentResponseModel, CommentAdapter.CommentViewHolder>(CommentDiffCallback()) {
 
     private var onReplyClickListener: ((CommentResponseModel) -> Unit)? = null
@@ -74,6 +77,12 @@ class CommentAdapter(
             binding.comment = comment
             binding.user = user
             binding.mainViewModel = mainViewModel
+
+            binding.replyButton.setOnClickListener {
+                commentViewModel.commentId.value = comment.cId
+                commentViewModel.isReply.value = true
+                Log.d("미란 isReply: ", commentViewModel.isReply.value.toString())
+            }
             replyAdapter.submitList(replies)
             binding.executePendingBindings()
         }

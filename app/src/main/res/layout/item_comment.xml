@@ -13,6 +13,10 @@
             type="com.example.xml_ver.data.retrofit.user.UserResponseModel" />
 
         <variable
+            name="commentViewModel"
+            type="com.example.xml_ver.viewModel.boardInfo.CommentViewModel" />
+
+        <variable
             name="mainViewModel"
             type="com.example.xml_ver.viewModel.MainViewModel" />
 

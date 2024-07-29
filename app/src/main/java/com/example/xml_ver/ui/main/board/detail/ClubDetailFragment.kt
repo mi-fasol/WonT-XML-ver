@@ -146,9 +146,42 @@ class ClubDetailFragment : Fragment() {
         }
     }
 
+    private fun setupButton() {
+        binding.apply {
+            commentSendButton.setOnClickListener {
+                sendComment()
+            }
+        }
+    }
+
+    private fun sendComment() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            commentViewModel.isReply.collect {
+                if (it) {
+                    commentViewModel.commentId.collect { cId ->
+                        commentViewModel.registerReply(
+                            binding.commentEditText.text.toString(),
+                            cId,
+                            2
+                        )
+                    }
+                } else {
+                    commentViewModel.registerComment(
+                        binding.commentEditText.text.toString(),
+                        pId,
+                        2
+                    )
+                }
+                binding.commentEditText.text.clear()
+                commentViewModel.isReply.value = false
+                commentViewModel.commentId.value = 0
+            }
+        }
+    }
+
 
     private fun setupCommentRecyclerView() {
-        commentAdapter = CommentAdapter(mainViewModel)
+        commentAdapter = CommentAdapter(mainViewModel, commentViewModel)
         binding.commentRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = commentAdapter
