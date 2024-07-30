@@ -17,7 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
-import com.example.xml_ver.adapter.SliderAdapter
+import com.example.xml_ver.adapter.UserSliderAdapter
 import com.example.xml_ver.databinding.FragmentUserRegisterBinding
 import com.example.xml_ver.util.userProfileList
 import com.example.xml_ver.viewModel.user.UserViewModel
@@ -68,7 +68,7 @@ class UserRegisterFragment : Fragment() {
 
     private fun setupViewPager() {
         viewPager = binding.viewPager
-        val adapter = SliderAdapter()
+        val adapter = UserSliderAdapter()
         viewPager.adapter = adapter
     }
 

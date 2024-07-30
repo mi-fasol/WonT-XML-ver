@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.xml_ver.data.retrofit.post.ClubPostResponseModel
 import com.example.xml_ver.data.retrofit.post.HotPlaceResponsePostModel
+import com.example.xml_ver.data.retrofit.post.PostResponseModel
 import com.example.xml_ver.databinding.ItemClubPostBinding
 import com.example.xml_ver.databinding.ItemHotPlacePostBinding
 import com.example.xml_ver.viewModel.MainViewModel
@@ -15,6 +16,11 @@ class HotPlacePostAdapter(
 ) : ListAdapter<HotPlaceResponsePostModel, HotPlacePostAdapter.PostViewHolder>(
     HotPlacePostDiffCallback()
 ) {
+    private var onItemClickListener: ((HotPlaceResponsePostModel) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (HotPlaceResponsePostModel) -> Unit) {
+        onItemClickListener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding =
@@ -33,6 +39,10 @@ class HotPlacePostAdapter(
             binding.hotPlacePost = post
             binding.mainViewModel = mainViewModel
             binding.executePendingBindings()
+
+            binding.root.setOnClickListener {
+                onItemClickListener?.invoke(post)
+            }
         }
     }
 }

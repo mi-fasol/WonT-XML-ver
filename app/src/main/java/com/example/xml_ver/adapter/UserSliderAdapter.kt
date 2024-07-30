@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.xml_ver.R
 import com.example.xml_ver.util.userProfileList
 
-class SliderAdapter() : RecyclerView.Adapter<SliderAdapter.SliderViewHolder>() {
+class UserSliderAdapter() : RecyclerView.Adapter<UserSliderAdapter.SliderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SliderViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.image_slide, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.user_profile_image_slide, parent, false)
         return SliderViewHolder(view)
     }
 

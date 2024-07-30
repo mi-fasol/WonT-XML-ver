@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.R
@@ -59,6 +60,15 @@ class HotPlaceFragment : Fragment() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = popularHotPlacePostAdapter
         }
+
+        popularHotPlacePostAdapter.setOnItemClickListener { post ->
+            val action =
+                HotPlaceFragmentDirections.actionHotPlaceFragmentToHotPlaceDetailFragment(
+                    post.hpId,
+                    post.nickname
+                )
+            NavHostFragment.findNavController(this).navigate(action)
+        }
     }
 
     private fun setupHotPlacePostRecyclerView() {
@@ -67,6 +77,15 @@ class HotPlaceFragment : Fragment() {
         binding.hotPlacePostView.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = hotPlacePostAdapter
+        }
+
+        hotPlacePostAdapter.setOnItemClickListener { post ->
+            val action =
+                HotPlaceFragmentDirections.actionHotPlaceFragmentToHotPlaceDetailFragment(
+                    post.hpId,
+                    post.nickname
+                )
+            NavHostFragment.findNavController(this).navigate(action)
         }
     }
 

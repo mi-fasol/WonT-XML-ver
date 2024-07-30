@@ -19,35 +19,45 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.CommentAdapter
+import com.example.xml_ver.adapter.HotPlaceImageAdapter
 import com.example.xml_ver.adapter.ReplyAdapter
+import com.example.xml_ver.adapter.UserSliderAdapter
 import com.example.xml_ver.databinding.FragmentClubDetailBinding
+import com.example.xml_ver.databinding.FragmentHotPlaceDetailBinding
 import com.example.xml_ver.databinding.FragmentMeetingDetailBinding
 import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.viewModel.MainViewModel
 import com.example.xml_ver.viewModel.board.AcceptState
 import com.example.xml_ver.viewModel.board.AcceptationViewModel
 import com.example.xml_ver.viewModel.board.ClubPostViewModel
+import com.example.xml_ver.viewModel.board.HotPlacePostViewModel
 import com.example.xml_ver.viewModel.board.MeetingViewModel
 import com.example.xml_ver.viewModel.boardInfo.CommentViewModel
 import com.example.xml_ver.viewModel.boardInfo.WishViewModel
 import com.example.xml_ver.viewModel.user.UserViewModel
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ClubDetailFragment : Fragment() {
-    private var _binding: FragmentClubDetailBinding? = null
+class HotPlaceDetailFragment : Fragment() {
+    private var _binding: FragmentHotPlaceDetailBinding? = null
     private val binding get() = _binding!!
-    private val postViewModel: ClubPostViewModel by viewModels()
+    private val postViewModel: HotPlacePostViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
     private val commentViewModel: CommentViewModel by viewModels()
     private val wishViewModel: WishViewModel by viewModels()
+    private lateinit var viewPager: ViewPager2
     private lateinit var commentAdapter: CommentAdapter
-    private val args: ClubDetailFragmentArgs by navArgs()
+    private lateinit var hotPlaceImageAdapter: HotPlaceImageAdapter
+    private lateinit var dotsIndicator: SpringDotsIndicator
+    private val args: HotPlaceDetailFragmentArgs by navArgs()
     private var pId = 0
     private var nickname = ""
     private var wished = false
@@ -58,8 +68,8 @@ class ClubDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentClubDetailBinding.inflate(inflater, container, false).apply {
-            clubViewModel = postViewModel
+        _binding = FragmentHotPlaceDetailBinding.inflate(inflater, container, false).apply {
+            hotPlaceViewModel = postViewModel
             lifecycleOwner = viewLifecycleOwner
             pId = args.pId
             nickname = args.nickname
@@ -74,6 +84,7 @@ class ClubDetailFragment : Fragment() {
 
         setupToolbar()
         getPostInfo()
+        setupViewPager()
         getPostWriterInfo()
         setupCommentRecyclerView()
         getCommentUserList()
@@ -82,11 +93,25 @@ class ClubDetailFragment : Fragment() {
         (activity as MainActivity).hideBottomNavigation()
     }
 
+    private fun setupViewPager() {
+        viewPager = binding.hotPlaceImageList
+        dotsIndicator = binding.dotsIndicator
+    }
+
+
     private fun getPostInfo() {
         viewLifecycleOwner.lifecycleScope.launch {
-            postViewModel.getOneClubPost(pId)
-            postViewModel.clubPost.collect {
+            postViewModel.getOneHotPlacePost(pId)
+            postViewModel.hotPlaceModel.collect {
                 binding.post = it
+                if (it != null) {
+                    viewPager = binding.hotPlaceImageList
+                    dotsIndicator = binding.dotsIndicator
+
+                    hotPlaceImageAdapter = HotPlaceImageAdapter(it.imageList!!)
+                    viewPager.adapter = hotPlaceImageAdapter
+                    dotsIndicator.attachTo(viewPager)
+                }
             }
         }
     }
@@ -111,7 +136,7 @@ class ClubDetailFragment : Fragment() {
             when (menuItem.itemId) {
                 R.id.wish_star_button -> {
                     viewLifecycleOwner.lifecycleScope.launch {
-                        wishViewModel.changeWish(pId, 2, wished)
+                        wishViewModel.changeWish(pId, 3, wished)
                         wished = !wished
                         updateStarButtonColor(menuItem)
                     }
@@ -123,7 +148,7 @@ class ClubDetailFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            wishViewModel.checkIsWishedPost(pId, 2)
+            wishViewModel.checkIsWishedPost(pId, 3)
             wishViewModel.isWished.collect { wish ->
                 wished = wish
                 val menuItem = binding.toolbar.menu.findItem(R.id.wish_star_button)
@@ -162,14 +187,14 @@ class ClubDetailFragment : Fragment() {
                         commentViewModel.registerReply(
                             binding.commentEditText.text.toString(),
                             cId,
-                            2
+                            3
                         )
                     }
                 } else {
                     commentViewModel.registerComment(
                         binding.commentEditText.text.toString(),
                         pId,
-                        2
+                        3
                     )
                 }
                 binding.commentEditText.text.clear()
@@ -191,9 +216,16 @@ class ClubDetailFragment : Fragment() {
         }
     }
 
+    private fun setupImageListAdapter() {
+        val imageList =
+            if (binding.post!!.imageList!!.isEmpty()) emptyList() else binding.post!!.imageList
+        hotPlaceImageAdapter = HotPlaceImageAdapter(imageList!!)
+
+    }
+
     private fun getCommentList() {
         viewLifecycleOwner.lifecycleScope.launch {
-            commentViewModel.getCommentListByPId(pId, 2)
+            commentViewModel.getCommentListByPId(pId, 3)
             commentViewModel.commentList.collect { comments ->
                 commentAdapter.submitList(comments)
                 comments.forEach { comment ->
@@ -205,7 +237,7 @@ class ClubDetailFragment : Fragment() {
 
     private fun getCommentUserList() {
         viewLifecycleOwner.lifecycleScope.launch {
-            commentViewModel.getCommentUser(pId, 2)
+            commentViewModel.getCommentUser(pId, 3)
             commentViewModel.userList.collect {
                 commentAdapter.updateUserList(it)
             }
@@ -214,7 +246,7 @@ class ClubDetailFragment : Fragment() {
 
     private fun getReplyList(cId: Int) {
         viewLifecycleOwner.lifecycleScope.launch {
-            commentViewModel.getReplyListByCId(cId, 2)
+            commentViewModel.getReplyListByCId(cId, 3)
             commentViewModel.replyList.collect { replies ->
                 commentAdapter.updateReplies(cId, replies[cId] ?: emptyList())
             }
