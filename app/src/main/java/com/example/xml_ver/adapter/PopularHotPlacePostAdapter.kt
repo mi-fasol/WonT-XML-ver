@@ -1,15 +1,25 @@
 package com.example.xml_ver.adapter
 
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.xml_ver.R
 import com.example.xml_ver.data.retrofit.post.HotPlaceResponsePostModel
 import com.example.xml_ver.databinding.ItemPopularHotPlacePostBinding
 import com.example.xml_ver.viewModel.MainViewModel
+import com.example.xml_ver.viewModel.boardInfo.WishViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PopularHotPlacePostAdapter(
-    private val mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel,
+    private val wishList : List<HotPlaceResponsePostModel>,
+    private val wishViewModel: WishViewModel
 ) : ListAdapter<HotPlaceResponsePostModel, PopularHotPlacePostAdapter.PostViewHolder>(
     HotPlacePostDiffCallback()
 ) {
@@ -39,7 +49,15 @@ class PopularHotPlacePostAdapter(
         fun bind(post: HotPlaceResponsePostModel) {
             binding.hotPlacePost = post
             binding.mainViewModel = mainViewModel
+            binding.wish = wishList.contains(post)
+
             binding.executePendingBindings()
+
+            binding.heartIcon.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    wishViewModel.changeWish(post.hpId, 3, binding.wish)
+                }
+            }
 
             binding.root.setOnClickListener {
                 onItemClickListener?.invoke(post)

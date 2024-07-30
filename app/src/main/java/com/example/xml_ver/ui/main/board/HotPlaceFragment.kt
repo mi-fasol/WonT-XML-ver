@@ -1,6 +1,7 @@
 package com.example.xml_ver.ui.main.board
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -15,9 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.HotPlacePostAdapter
 import com.example.xml_ver.adapter.PopularHotPlacePostAdapter
+import com.example.xml_ver.data.retrofit.post.HotPlaceResponsePostModel
 import com.example.xml_ver.databinding.FragmentHotPlaceBinding
 import com.example.xml_ver.viewModel.MainViewModel
 import com.example.xml_ver.viewModel.board.HotPlacePostViewModel
+import com.example.xml_ver.viewModel.boardInfo.WishViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -28,6 +31,7 @@ class HotPlaceFragment : Fragment() {
     private lateinit var hotPlacePostAdapter: HotPlacePostAdapter
     private lateinit var popularHotPlacePostAdapter: PopularHotPlacePostAdapter
     private val hotPlaceViewModel: HotPlacePostViewModel by viewModels()
+    private val wishViewModel: WishViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
@@ -44,18 +48,18 @@ class HotPlaceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerViews()
+        getWishPostList()
         setupToolbar(view)
         getPostData()
     }
 
-    private fun setupRecyclerViews() {
-        setupPopularRecyclerView()
-        setupHotPlacePostRecyclerView()
+    private fun setupRecyclerViews(wishList: List<HotPlaceResponsePostModel>) {
+        setupPopularRecyclerView(wishList)
+        setupHotPlacePostRecyclerView(wishList)
     }
 
-    private fun setupPopularRecyclerView() {
-        popularHotPlacePostAdapter = PopularHotPlacePostAdapter(mainViewModel)
+    private fun setupPopularRecyclerView(wishList: List<HotPlaceResponsePostModel>) {
+        popularHotPlacePostAdapter = PopularHotPlacePostAdapter(mainViewModel, wishList, wishViewModel)
         binding.popularHotPlaceView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = popularHotPlacePostAdapter
@@ -71,9 +75,9 @@ class HotPlaceFragment : Fragment() {
         }
     }
 
-    private fun setupHotPlacePostRecyclerView() {
+    private fun setupHotPlacePostRecyclerView(wishList: List<HotPlaceResponsePostModel>) {
         hotPlacePostAdapter =
-            HotPlacePostAdapter(mainViewModel)
+            HotPlacePostAdapter(mainViewModel, wishList, wishViewModel)
         binding.hotPlacePostView.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = hotPlacePostAdapter
@@ -90,12 +94,13 @@ class HotPlaceFragment : Fragment() {
     }
 
     private fun setupToolbar(view: View) {
-        binding.toolbar.setOnMenuItemClickListener {menuItem: MenuItem ->
+        binding.toolbar.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
                 R.id.chat_list_page_navigation -> {
                     Navigation.findNavController(view).navigateUp()
                     true
                 }
+
                 else -> false
             }
         }
@@ -117,6 +122,19 @@ class HotPlaceFragment : Fragment() {
         }
     }
 
+    private fun getWishPostList() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            wishViewModel.getWishHotPlace()
+            wishViewModel.wishHotPlaceList.collect {
+                if (it.isNotEmpty()) {
+                    setupRecyclerViews(it)
+                } else {
+                    setupRecyclerViews(emptyList())
+                }
+            }
+        }
+    }
+
     private fun getPopularHotPlacePostList() {
         viewLifecycleOwner.lifecycleScope.launch {
             hotPlaceViewModel.getPopularHotPlace()
@@ -125,17 +143,4 @@ class HotPlaceFragment : Fragment() {
             }
         }
     }
-
-//    private fun updateTodayPostViewVisibility(isEmpty: Boolean) {
-//        val params = binding.postListView.layoutParams as ConstraintLayout.LayoutParams
-//        binding.todayPostView.visibility = if (isEmpty) {
-//            params.height = ViewGroup.LayoutParams.MATCH_PARENT
-//            View.GONE
-//        } else {
-//            params.height = (ViewGroup.LayoutParams.MATCH_PARENT * 0.62).toInt()
-//            View.VISIBLE
-//        }
-//        binding.postListView.layoutParams = params
-//        binding.postListView.requestLayout()
-//    }
 }

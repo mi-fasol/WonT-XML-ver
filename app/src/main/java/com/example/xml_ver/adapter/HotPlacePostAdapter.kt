@@ -10,9 +10,15 @@ import com.example.xml_ver.data.retrofit.post.PostResponseModel
 import com.example.xml_ver.databinding.ItemClubPostBinding
 import com.example.xml_ver.databinding.ItemHotPlacePostBinding
 import com.example.xml_ver.viewModel.MainViewModel
+import com.example.xml_ver.viewModel.boardInfo.WishViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HotPlacePostAdapter(
-    private val mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel,
+    private val wishList: List<HotPlaceResponsePostModel>,
+    private val wishViewModel: WishViewModel
 ) : ListAdapter<HotPlaceResponsePostModel, HotPlacePostAdapter.PostViewHolder>(
     HotPlacePostDiffCallback()
 ) {
@@ -38,7 +44,15 @@ class HotPlacePostAdapter(
         fun bind(post: HotPlaceResponsePostModel) {
             binding.hotPlacePost = post
             binding.mainViewModel = mainViewModel
+            binding.wish = wishList.contains(post)
+
             binding.executePendingBindings()
+
+            binding.heartIcon.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    wishViewModel.changeWish(post.hpId, 3, binding.wish)
+                }
+            }
 
             binding.root.setOnClickListener {
                 onItemClickListener?.invoke(post)

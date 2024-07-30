@@ -173,7 +173,7 @@ class WishViewModel @Inject constructor(
         return _isWished.value
     }
 
-    fun addWishList(pId: Int, type: Int) {
+    private fun addWishList(pId: Int, type: Int) {
         val wish = when (type) {
             1 -> {
                 WishListModel(
@@ -240,7 +240,7 @@ class WishViewModel @Inject constructor(
         }
     }
 
-    fun deleteWishList(pId: Int, type: Int) {
+    private fun deleteWishList(pId: Int, type: Int) {
         viewModelScope.launch {
             _postModelState.value = Resource.loading(null)
             try {

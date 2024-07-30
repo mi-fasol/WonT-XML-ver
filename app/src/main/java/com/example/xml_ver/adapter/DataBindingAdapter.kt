@@ -1,7 +1,9 @@
 package com.example.xml_ver.adapter
 
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.xml_ver.R
@@ -32,6 +34,22 @@ object DateBindingAdapter {
     fun setAttendee(view: TextView, person: Int?) {
         person?.let {
             view.text = "${person}/6"
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:wishColor")
+    fun setWishButtonColor(view: ImageButton, wish: Boolean?) {
+        wish?.let {
+            val color = if (it) {
+                ContextCompat.getColor(
+                    view.context,
+                    R.color.mainColor
+                )
+            } else {
+                ContextCompat.getColor(view.context, android.R.color.white)
+            }
+            view.setColorFilter(color)
         }
     }
 

@@ -1,16 +1,12 @@
 package com.example.xml_ver.ui.main.board.detail
 
-import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
@@ -24,22 +20,13 @@ import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.CommentAdapter
 import com.example.xml_ver.adapter.HotPlaceImageAdapter
-import com.example.xml_ver.adapter.ReplyAdapter
-import com.example.xml_ver.adapter.UserSliderAdapter
-import com.example.xml_ver.databinding.FragmentClubDetailBinding
 import com.example.xml_ver.databinding.FragmentHotPlaceDetailBinding
-import com.example.xml_ver.databinding.FragmentMeetingDetailBinding
 import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.viewModel.MainViewModel
-import com.example.xml_ver.viewModel.board.AcceptState
-import com.example.xml_ver.viewModel.board.AcceptationViewModel
-import com.example.xml_ver.viewModel.board.ClubPostViewModel
 import com.example.xml_ver.viewModel.board.HotPlacePostViewModel
-import com.example.xml_ver.viewModel.board.MeetingViewModel
 import com.example.xml_ver.viewModel.boardInfo.CommentViewModel
 import com.example.xml_ver.viewModel.boardInfo.WishViewModel
 import com.example.xml_ver.viewModel.user.UserViewModel
-import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -135,11 +122,11 @@ class HotPlaceDetailFragment : Fragment() {
 
         binding.toolbar.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
-                R.id.wish_star_button -> {
+                R.id.wish_heart_button -> {
                     viewLifecycleOwner.lifecycleScope.launch {
                         wishViewModel.changeWish(pId, 3, wished)
                         wished = !wished
-                        updateStarButtonColor(menuItem)
+                        updateWishButtonColor(menuItem)
                     }
                     true
                 }
@@ -152,15 +139,15 @@ class HotPlaceDetailFragment : Fragment() {
             wishViewModel.checkIsWishedPost(pId, 3)
             wishViewModel.isWished.collect { wish ->
                 wished = wish
-                val menuItem = binding.toolbar.menu.findItem(R.id.wish_star_button)
+                val menuItem = binding.toolbar.menu.findItem(R.id.wish_heart_button)
                 menuItem?.let {
-                    updateStarButtonColor(it)
+                    updateWishButtonColor(it)
                 }
             }
         }
     }
 
-    private fun updateStarButtonColor(menuItem: MenuItem) {
+    private fun updateWishButtonColor(menuItem: MenuItem) {
         val color = if (wished) {
             ContextCompat.getColor(requireContext(), R.color.mainColor)
         } else {

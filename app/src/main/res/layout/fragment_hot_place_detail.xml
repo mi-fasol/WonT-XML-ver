@@ -47,7 +47,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/white"
                     android:theme="?attr/actionBarTheme"
-                    app:menu="@menu/menu_star_toolbar"
+                    app:menu="@menu/menu_heart_toolbar"
                     app:navigationIcon="@drawable/outline_arrow_back_ios_24"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:titleTextAppearance="@style/MainPageAppBar"
