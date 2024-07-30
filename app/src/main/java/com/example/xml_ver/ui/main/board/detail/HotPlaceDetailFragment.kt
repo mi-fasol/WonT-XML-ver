@@ -89,6 +89,7 @@ class HotPlaceDetailFragment : Fragment() {
         setupCommentRecyclerView()
         getCommentUserList()
         getCommentList()
+        setupButton()
 
         (activity as MainActivity).hideBottomNavigation()
     }
@@ -216,23 +217,21 @@ class HotPlaceDetailFragment : Fragment() {
         }
     }
 
-    private fun setupImageListAdapter() {
-        val imageList =
-            if (binding.post!!.imageList!!.isEmpty()) emptyList() else binding.post!!.imageList
-        hotPlaceImageAdapter = HotPlaceImageAdapter(imageList!!)
-
-    }
-
     private fun getCommentList() {
         viewLifecycleOwner.lifecycleScope.launch {
             commentViewModel.getCommentListByPId(pId, 3)
             commentViewModel.commentList.collect { comments ->
+                updateCommentSize(comments.size)
                 commentAdapter.submitList(comments)
                 comments.forEach { comment ->
                     getReplyList(comment.cId)
                 }
             }
         }
+    }
+
+    private fun updateCommentSize(size: Int) {
+        binding.commentSize.text = size.toString()
     }
 
     private fun getCommentUserList() {

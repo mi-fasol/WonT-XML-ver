@@ -75,6 +75,7 @@ class ClubDetailFragment : Fragment() {
         setupToolbar()
         getPostInfo()
         getPostWriterInfo()
+        setupButton()
         setupCommentRecyclerView()
         getCommentUserList()
         getCommentList()
@@ -195,12 +196,17 @@ class ClubDetailFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             commentViewModel.getCommentListByPId(pId, 2)
             commentViewModel.commentList.collect { comments ->
+                updateCommentSize(comments.size)
                 commentAdapter.submitList(comments)
                 comments.forEach { comment ->
                     getReplyList(comment.cId)
                 }
             }
         }
+    }
+
+    private fun updateCommentSize(size: Int) {
+        binding.commentSize.text = size.toString()
     }
 
     private fun getCommentUserList() {

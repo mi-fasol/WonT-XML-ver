@@ -227,12 +227,17 @@ class MeetingDetailFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             commentViewModel.getCommentListByPId(pId, 1)
             commentViewModel.commentList.collect { comments ->
+                updateCommentSize(comments.size)
                 commentAdapter.submitList(comments)
                 comments.forEach { comment ->
                     getReplyList(comment.cId)
                 }
             }
         }
+    }
+
+    private fun updateCommentSize(size: Int) {
+        binding.commentSize.text = size.toString()
     }
 
     private fun getCommentUserList() {

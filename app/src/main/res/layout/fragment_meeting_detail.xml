@@ -183,12 +183,36 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/attend_button" />
 
+                    <TextView
+                        android:id="@+id/comment_text"
+                        style="@style/CommentInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:layout_marginStart="20dp"
+                        android:text="댓글"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/bottom_of_content_divider" />
+
+                    <TextView
+                        android:id="@+id/comment_size"
+                        style="@style/CommentInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:layout_marginStart="7dp"
+                        android:text="0"
+                        android:textColor="@color/mainColor"
+                        app:layout_constraintStart_toEndOf="@id/comment_text"
+                        app:layout_constraintTop_toBottomOf="@id/bottom_of_content_divider" />
+
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/comment_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/bottom_of_content_divider" />
+                        app:layout_constraintTop_toBottomOf="@id/comment_text" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
 
