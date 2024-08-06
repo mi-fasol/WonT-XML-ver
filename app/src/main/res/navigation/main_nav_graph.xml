@@ -105,6 +105,22 @@
     </fragment>
 
     <fragment
+        android:id="@+id/wishHotPlaceFragment"
+        android:name="com.example.xml_ver.ui.main.setting.wish.WishHotPlaceFragment"
+        tools:layout="@layout/fragment_wish_hot_place">
+        <action
+            android:id="@+id/action_wishHotPlaceFragment_to_hotPlaceDetailFragment"
+            app:destination="@id/clubDetailFragment">
+            <argument
+                android:name="pId"
+                app:argType="integer" />
+            <argument
+                android:name="nickname"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
         android:id="@+id/clubDetailFragment"
         android:name="com.example.xml_ver.ui.main.board.detail.ClubDetailFragment"
         tools:layout="@layout/fragment_club_detail">
