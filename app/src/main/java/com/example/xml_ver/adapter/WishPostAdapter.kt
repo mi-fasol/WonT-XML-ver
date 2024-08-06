@@ -1,7 +1,10 @@
 package com.example.xml_ver.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ListAdapter
@@ -16,6 +19,12 @@ import com.example.xml_ver.viewModel.MainViewModel
 import com.example.xml_ver.viewModel.board.AcceptationViewModel
 import com.example.xml_ver.viewModel.board.MeetingViewModel
 import com.example.xml_ver.viewModel.boardInfo.WishViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
 class WishPostAdapter(
     private val wishViewModel: WishViewModel,
@@ -23,6 +32,7 @@ class WishPostAdapter(
 ) : ListAdapter<PostResponseModel, WishPostAdapter.PostViewHolder>(PostDiffCallback()) {
 
     private var onItemClickListener: ((PostResponseModel) -> Unit)? = null
+    private var isWished = true
 
     fun setOnItemClickListener(listener: (PostResponseModel) -> Unit) {
         onItemClickListener = listener
@@ -46,7 +56,23 @@ class WishPostAdapter(
             binding.mainViewModel = mainViewModel
             binding.executePendingBindings()
 
+            binding.wishButton.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    Log.d("미란", "눌려떠용")
+                    wishViewModel.changeWish(post.pId, 1, isWished)
+                    isWished = !isWished
+                    val color = if (isWished) {
+                        ContextCompat.getColor(it.context, R.color.mainColor)
+                    } else {
+                        ContextCompat.getColor(it.context, R.color.inquiryScreenContentTextColor)
+                    }
+                    binding.wishButton.setColorFilter(color)
+                }
+            }
 
+            binding.root.setOnClickListener {
+                onItemClickListener?.invoke(post)
+            }
         }
     }
 }
