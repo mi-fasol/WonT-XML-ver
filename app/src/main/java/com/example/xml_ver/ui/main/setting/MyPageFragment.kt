@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.adapter.MyPageListAdapter
 import com.example.xml_ver.databinding.FragmentMyPageBinding
@@ -37,7 +38,7 @@ class MyPageFragment : Fragment() {
     private fun setupRecyclerView() {
         binding.myPageListView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = MyPageListAdapter(myPageList)
+            adapter = MyPageListAdapter(myPageList, findNavController())
         }
     }
 

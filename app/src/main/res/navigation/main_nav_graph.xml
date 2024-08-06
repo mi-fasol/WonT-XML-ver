@@ -73,6 +73,22 @@
     </fragment>
 
     <fragment
+        android:id="@+id/wishMeetingFragment"
+        android:name="com.example.xml_ver.ui.main.setting.wish.WishMeetingFragment"
+        tools:layout="@layout/fragment_wish_meeting">
+        <action
+            android:id="@+id/action_wishMeetingFragment_to_meetingDetailFragment"
+            app:destination="@id/meetingDetailFragment">
+            <argument
+                android:name="pId"
+                app:argType="integer" />
+            <argument
+                android:name="nickname"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
         android:id="@+id/clubDetailFragment"
         android:name="com.example.xml_ver.ui.main.board.detail.ClubDetailFragment"
         tools:layout="@layout/fragment_club_detail">
