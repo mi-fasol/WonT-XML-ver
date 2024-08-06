@@ -44,7 +44,8 @@ class MyPageListAdapter(
 
             binding.root.setOnClickListener {
                 when (position) {
-                    1 -> navController.navigate(R.id.wishMeetingFragment)
+                    2 -> navController.navigate(R.id.wishMeetingFragment)
+                    3 -> navController.navigate(R.id.wishClubFragment)
                 }
             }
         }
