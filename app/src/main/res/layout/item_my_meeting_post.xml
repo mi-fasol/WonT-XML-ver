@@ -9,6 +9,10 @@
             type="com.example.xml_ver.data.retrofit.post.PostResponseModel" />
 
         <variable
+            name="attendee"
+            type="Integer" />
+
+        <variable
             name="mainViewModel"
             type="com.example.xml_ver.viewModel.MainViewModel" />
 
@@ -50,18 +54,7 @@
                     style="@style/MeetingScreenAttendInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0/0"
-                    android:textAppearance="?attr/textAppearanceListItemSecondary"
-                    android:textColor="@color/mainColor"
-                    android:layout_marginEnd="5dp"
-                    app:layout_constraintEnd_toStartOf="@id/icon"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/icon"
-                    android:src="@drawable/person"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:attendee="@{attendee}"
                     android:textAppearance="?attr/textAppearanceListItemSecondary"
                     android:textColor="@color/mainColor"
                     app:layout_constraintEnd_toEndOf="parent"
