@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.xml_ver.MainActivity
 import com.example.xml_ver.adapter.MyPageListAdapter
 import com.example.xml_ver.databinding.FragmentMyPageBinding
 import com.example.xml_ver.util.SharedPreferenceUtil

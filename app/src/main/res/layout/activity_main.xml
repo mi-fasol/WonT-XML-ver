@@ -8,9 +8,9 @@
 
     <FrameLayout
         android:id="@+id/start_container"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,17 +28,67 @@
         android:id="@+id/main_floating_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/mainColor"
-        app:shapeAppearance="@style/Widget.Material3.CircularProgressIndicator.ExtraSmall"
-        app:elevation="0dp"
-        android:src="@drawable/baseline_add_24"
-        app:tint="@color/white"
-        app:maxImageSize="50dp"
-        android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/mainColor"
+        android:src="@drawable/baseline_add_24"
+        app:elevation="0dp"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:maxImageSize="50dp"
+        app:shapeAppearance="@style/Widget.Material3.CircularProgressIndicator.ExtraSmall"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/meeting_post_write_button"
+        style="@style/FloatingButtonText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/floating_button_background"
+        android:fontFamily="@font/sc_dream5"
+        android:gravity="center"
+        android:text="모임 등록"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/club_post_write_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.037"
+        app:layout_constraintWidth_percent="0.25" />
+
+    <TextView
+        android:id="@+id/club_post_write_button"
+        style="@style/FloatingButtonText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/floating_button_background"
+        android:fontFamily="@font/sc_dream5"
+        android:gravity="center"
+        android:text="소모임 등록"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/hot_place_write_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.037"
+        app:layout_constraintWidth_percent="0.25" />
+
+    <TextView
+        android:id="@+id/hot_place_write_button"
+        style="@style/FloatingButtonText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/floating_button_background"
+        android:fontFamily="@font/sc_dream5"
+        android:gravity="center"
+        android:text="핫플 등록"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/main_floating_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.037"
+        app:layout_constraintWidth_percent="0.25" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -47,10 +97,10 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/bottom_nav_background"
         app:itemActiveIndicatorStyle="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:itemIconTint="@color/bottom_nav_item_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation"
         app:navGraph="@navigation/main_nav_graph" />
 

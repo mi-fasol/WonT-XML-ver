@@ -81,6 +81,7 @@ class ClubDetailFragment : Fragment() {
         getCommentList()
 
         (activity as MainActivity).hideBottomNavigation()
+        (activity as MainActivity).hideFloatingButton()
     }
 
     private fun getPostInfo() {
@@ -106,6 +107,7 @@ class ClubDetailFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener {
             NavHostFragment.findNavController(this).popBackStack()
             (activity as MainActivity).showBottomNavigation()
+            (activity as MainActivity).showFloatingButton()
         }
 
         binding.toolbar.setOnMenuItemClickListener { menuItem: MenuItem ->

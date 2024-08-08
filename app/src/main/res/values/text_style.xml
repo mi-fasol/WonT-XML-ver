@@ -237,6 +237,7 @@
     <style name="FloatingButtonText">
         <item name="android:fontFamily">@sc_dream5</item>
         <item name="android:textSize">11.5sp</item>
+        <item name="android:textColor">#ffffff</item>
     </style>
 
 </resources>

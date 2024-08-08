@@ -3,8 +3,10 @@ package com.example.xml_ver
 import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private var isExpanded = false
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,21 +45,25 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_meeting -> {
+                    showFloatingButton()
                     navController.navigate(R.id.meetingFragment)
                     true
                 }
 
                 R.id.navigation_club -> {
+                    showFloatingButton()
                     navController.navigate(R.id.clubFragment)
                     true
                 }
 
                 R.id.navigation_hot -> {
+                    showFloatingButton()
                     navController.navigate(R.id.hotPlaceFragment)
                     true
                 }
 
                 R.id.navigation_my_page -> {
+                    hideFloatingButton()
                     navController.navigate(R.id.myPageFragment)
                     true
                 }
@@ -72,6 +79,65 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             bottomNavigationView.selectedItemId = R.id.navigation_meeting
         }
+
+        hideMenu()
+
+        binding.mainFloatingButton.setOnClickListener {
+            Log.d("미란", "눌렸음")
+            isExpanded = !isExpanded
+            toggleMenu()
+        }
+    }
+
+    private fun toggleMenu() {
+        if (isExpanded) {
+            showMenu()
+        } else {
+            hideMenu()
+        }
+    }
+
+    private fun showMenu() {
+        binding.meetingPostWriteButton.apply {
+            visibility = View.VISIBLE
+            alpha = 0f
+            scaleX = 0f
+            scaleY = 0f
+            animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(200).start()
+        }
+        binding.clubPostWriteButton.apply {
+            visibility = View.VISIBLE
+            alpha = 0f
+            scaleX = 0f
+            scaleY = 0f
+            animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(200).start()
+        }
+        binding.hotPlaceWriteButton.apply {
+            visibility = View.VISIBLE
+            alpha = 0f
+            scaleX = 0f
+            scaleY = 0f
+            animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(200).start()
+        }
+
+        binding.mainFloatingButton.animate().rotation(45f).setDuration(200).start()
+    }
+
+    private fun hideMenu() {
+        binding.meetingPostWriteButton.animate().alpha(0f).scaleX(0f).scaleY(0f).setDuration(200)
+            .withEndAction {
+                binding.meetingPostWriteButton.visibility = View.GONE
+            }.start()
+        binding.clubPostWriteButton.animate().alpha(0f).scaleX(0f).scaleY(0f).setDuration(200)
+            .withEndAction {
+                binding.clubPostWriteButton.visibility = View.GONE
+            }.start()
+        binding.hotPlaceWriteButton.animate().alpha(0f).scaleX(0f).scaleY(0f).setDuration(200)
+            .withEndAction {
+                binding.hotPlaceWriteButton.visibility = View.GONE
+            }.start()
+
+        binding.mainFloatingButton.animate().rotation(0f).setDuration(200).start()
     }
 
     fun hideBottomNavigation() {
@@ -80,5 +146,14 @@ class MainActivity : AppCompatActivity() {
 
     fun showBottomNavigation() {
         binding.bottomNavigation.visibility = View.VISIBLE
+    }
+
+    fun hideFloatingButton() {
+        binding.mainFloatingButton.visibility = View.GONE
+        isExpanded = false
+    }
+
+    fun showFloatingButton() {
+        binding.mainFloatingButton.visibility = View.VISIBLE
     }
 }
