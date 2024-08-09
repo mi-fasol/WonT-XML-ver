@@ -105,6 +105,10 @@ class MainActivity : AppCompatActivity() {
             scaleY = 0f
             animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(200).start()
         }
+        binding.meetingPostWriteButton.setOnClickListener {
+            navController.navigate(R.id.postMeetingFragment)
+        }
+
         binding.clubPostWriteButton.apply {
             visibility = View.VISIBLE
             alpha = 0f
