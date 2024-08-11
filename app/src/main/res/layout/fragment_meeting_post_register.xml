@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="mainViewModel"
+            type="com.example.xml_ver.viewModel.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/meeting_detail_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mainColor"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_marginVertical="5dp"
+                    android:background="@color/mainColor"
+                    android:theme="?attr/actionBarTheme"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:navigationIcon="@drawable/baseline_arrow_back_ios_white_24"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+                <TextView
+                    style="@style/MainPageAppBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="모임 등록"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:id="@+id/title_enter_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="35dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/meeting_detail_appbar">
+
+            <TextView
+                style="@style/EnterField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="모임"
+                android:textColor="@color/mainColor" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:hint="모임 제목을 입력해 주세요."
+                android:textAppearance="@style/EnterField" />
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/person_enter_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/posting_dropdown_background"
+            android:padding="5dp"
+            android:popupBackground="@android:color/white"
+            android:spinnerMode="dropdown"
+            android:text="0명"
+            android:textAppearance="@style/TextFieldContent"
+            app:layout_constraintStart_toStartOf="@id/title_enter_field"
+            app:layout_constraintTop_toBottomOf="@id/title_enter_field"
+            app:layout_constraintWidth_percent="0.25" />
+
+        <Spinner
+            android:id="@+id/category_enter_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/posting_dropdown_background"
+            android:padding="5dp"
+            android:popupBackground="@android:color/white"
+            android:spinnerMode="dropdown"
+            android:textAppearance="@style/TextFieldContent"
+            app:layout_constraintStart_toEndOf="@id/person_enter_field"
+            app:layout_constraintTop_toBottomOf="@id/title_enter_field"
+            app:layout_constraintWidth_percent="0.35" />
+
+        <Spinner
+            android:id="@+id/year_enter_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/posting_dropdown_background"
+            android:padding="5dp"
+            android:popupBackground="@android:color/white"
+            android:spinnerMode="dropdown"
+            android:textAppearance="@style/TextFieldContent"
+            app:layout_constraintStart_toStartOf="@id/title_enter_field"
+            app:layout_constraintTop_toBottomOf="@id/person_enter_field"
+            app:layout_constraintWidth_percent="0.24" />
+
+        <Spinner
+            android:id="@+id/month_enter_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/posting_dropdown_background"
+            android:padding="5dp"
+            android:popupBackground="@android:color/white"
+            android:spinnerMode="dropdown"
+            android:textAppearance="@style/TextFieldContent"
+            app:layout_constraintStart_toEndOf="@id/year_enter_field"
+            app:layout_constraintTop_toBottomOf="@id/person_enter_field"
+            app:layout_constraintWidth_percent="0.19" />
+
+        <Spinner
+            android:id="@+id/day_enter_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/posting_dropdown_background"
+            android:padding="5dp"
+            android:popupBackground="@android:color/white"
+            android:spinnerMode="dropdown"
+            android:textAppearance="@style/TextFieldContent"
+            app:layout_constraintStart_toEndOf="@id/month_enter_field"
+            app:layout_constraintTop_toBottomOf="@id/person_enter_field"
+            app:layout_constraintWidth_percent="0.19" />
+
+        <Spinner
+            android:id="@+id/hour_enter_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/posting_dropdown_background"
+            android:padding="5dp"
+            android:popupBackground="@android:color/white"
+            android:spinnerMode="dropdown"
+            android:textAppearance="@style/TextFieldContent"
+            app:layout_constraintStart_toEndOf="@id/day_enter_field"
+            app:layout_constraintTop_toBottomOf="@id/person_enter_field"
+            app:layout_constraintWidth_percent="0.19" />
+
+        <FrameLayout
+            android:id="@+id/edit_text_background"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="35dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/search_bar_background"
+            app:layout_constraintHeight_percent="0.4"
+            app:layout_constraintStart_toStartOf="@id/title_enter_field"
+            app:layout_constraintTop_toBottomOf="@id/hour_enter_field" />
+
+        <EditText
+            android:id="@+id/content_enter_field"
+            style="@style/ContentEnterText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="35dp"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:textAppearance="@style/ContentEnterText"
+            app:layout_constraintHeight_percent="0.4"
+            app:layout_constraintStart_toStartOf="@id/title_enter_field"
+            app:layout_constraintTop_toBottomOf="@id/hour_enter_field" />
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="35dp"
+            android:layout_marginVertical="35dp"
+            android:backgroundTint="@color/mainColor"
+            android:text="등록하기"
+            android:textAppearance="@style/ButtonText"
+            app:layout_constraintStart_toStartOf="@id/title_enter_field"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_background" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

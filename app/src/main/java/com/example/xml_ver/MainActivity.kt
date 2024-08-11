@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.meetingPostWriteButton.setOnClickListener {
             navController.navigate(R.id.postMeetingFragment)
+            isExpanded = false
         }
 
         binding.clubPostWriteButton.apply {
