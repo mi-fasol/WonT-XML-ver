@@ -56,7 +56,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
-            android:id="@+id/title_enter_field"
+            android:id="@+id/title_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
@@ -73,6 +73,7 @@
                 android:textColor="@color/mainColor" />
 
             <EditText
+                android:id="@+id/title_enter_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -92,8 +93,8 @@
             android:spinnerMode="dropdown"
             android:text="0명"
             android:textAppearance="@style/TextFieldContent"
-            app:layout_constraintStart_toStartOf="@id/title_enter_field"
-            app:layout_constraintTop_toBottomOf="@id/title_enter_field"
+            app:layout_constraintStart_toStartOf="@id/title_field"
+            app:layout_constraintTop_toBottomOf="@id/title_field"
             app:layout_constraintWidth_percent="0.25" />
 
         <Spinner
@@ -109,7 +110,7 @@
             android:spinnerMode="dropdown"
             android:textAppearance="@style/TextFieldContent"
             app:layout_constraintStart_toEndOf="@id/person_enter_field"
-            app:layout_constraintTop_toBottomOf="@id/title_enter_field"
+            app:layout_constraintTop_toBottomOf="@id/title_field"
             app:layout_constraintWidth_percent="0.35" />
 
         <Spinner
@@ -123,7 +124,7 @@
             android:popupBackground="@android:color/white"
             android:spinnerMode="dropdown"
             android:textAppearance="@style/TextFieldContent"
-            app:layout_constraintStart_toStartOf="@id/title_enter_field"
+            app:layout_constraintStart_toStartOf="@id/title_field"
             app:layout_constraintTop_toBottomOf="@id/person_enter_field"
             app:layout_constraintWidth_percent="0.24" />
 
@@ -182,22 +183,25 @@
             android:layout_marginHorizontal="35dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/search_bar_background"
-            app:layout_constraintHeight_percent="0.4"
-            app:layout_constraintStart_toStartOf="@id/title_enter_field"
-            app:layout_constraintTop_toBottomOf="@id/hour_enter_field" />
+            android:padding="10dp"
+            app:layout_constraintHeight_percent="0.43"
+            app:layout_constraintStart_toStartOf="@id/title_field"
+            app:layout_constraintTop_toBottomOf="@id/hour_enter_field">
 
-        <EditText
-            android:id="@+id/content_enter_field"
-            style="@style/ContentEnterText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="35dp"
-            android:layout_marginTop="20dp"
-            android:background="@null"
-            android:textAppearance="@style/ContentEnterText"
-            app:layout_constraintHeight_percent="0.4"
-            app:layout_constraintStart_toStartOf="@id/title_enter_field"
-            app:layout_constraintTop_toBottomOf="@id/hour_enter_field" />
+            <EditText
+                android:id="@+id/content_enter_field"
+                style="@style/ContentEnterText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="게시물 내용을 작성해 보세요!"
+                android:maxLength="300"
+                android:textAppearance="@style/ContentEnterText"
+                android:textColor="@color/mainTextColor"
+                app:layout_constraintStart_toStartOf="@id/title_enter_field"
+                app:layout_constraintTop_toBottomOf="@id/hour_enter_field" />
+
+        </FrameLayout>
 
         <Button
             android:id="@+id/register_button"
@@ -208,7 +212,7 @@
             android:backgroundTint="@color/mainColor"
             android:text="등록하기"
             android:textAppearance="@style/ButtonText"
-            app:layout_constraintStart_toStartOf="@id/title_enter_field"
+            app:layout_constraintStart_toStartOf="@id/title_field"
             app:layout_constraintTop_toBottomOf="@id/edit_text_background" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

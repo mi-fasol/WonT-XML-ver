@@ -16,6 +16,7 @@ import com.example.xml_ver.repository.PostRepository
 import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.util.getCurrentDateTime
 import com.example.xml_ver.util.getCurrentYear
+import com.example.xml_ver.util.parseDateString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,6 +25,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 enum class AcceptState {
@@ -82,8 +86,8 @@ class MeetingViewModel @Inject constructor(
     val deadlineTime = MutableStateFlow("01시")
     val content = MutableStateFlow("")
 
-    private val deadline =
-        MutableStateFlow("")
+//    val deadline =
+//        MutableStateFlow("${deadlineYear.value} ${deadlineMonth.value} ${deadlineDay.value} ${deadlineTime.value}")
 
     // 상태 관리
     private val _todayPostModelState =
@@ -120,16 +124,36 @@ class MeetingViewModel @Inject constructor(
         }
     }
 
-    // 필드 유효성 검사
+    var deadline: StateFlow<String> =
+        combine(
+           deadlineYear,
+            deadlineMonth,
+            deadlineDay,
+            deadlineTime
+        ) {  year, month, day, time ->
+            "$year $month $day $time"
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "${getCurrentYear()} 01월 01일 00시")
+
     var isValid: StateFlow<Boolean> =
         combine(
             title,
             person,
             category,
-            content
-        ) { title, person, category, content ->
-            title.isNotBlank() && person != 0 && category.isNotBlank() && content.isNotBlank()
+            content,
+            deadline
+        ) { values ->
+            val (title, person, category, content) = values
+
+            title != "" && person != 0 && category != "" && content != "" && deadlineIsValid(
+                deadline.value
+            )
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    private fun deadlineIsValid(deadline: String): Boolean {
+        val deadlineDate = parseDateString(deadline, "yyyy년 MM월 dd일 HH시")
+        Log.d("미란, deadline", deadline)
+        return deadlineDate.after(Date())
+    }
 
     private val _postRegisterState =
         MutableStateFlow<Resource<PostResponseModel>>(Resource.loading(null))
@@ -281,8 +305,6 @@ class MeetingViewModel @Inject constructor(
 
     fun registerPost() {
         val today = getCurrentDateTime()
-        deadline.value =
-            "${deadlineYear.value} ${deadlineMonth.value} ${deadlineDay.value} ${deadlineTime.value}"
         val post = PostModel(
             title.value,
             content.value,
@@ -299,7 +321,6 @@ class MeetingViewModel @Inject constructor(
             try {
                 val response = repository.registerPost(post)
                 if (response.isSuccessful && response.body() != null) {
-//                    _registerState.value = Resource.success(response.body())
                     _postRegisterState.value = Resource.success(response.body())
                     Log.d("게시물 전송", response.body().toString())
                 } else {

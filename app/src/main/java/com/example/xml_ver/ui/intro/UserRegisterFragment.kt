@@ -19,6 +19,8 @@ import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.UserSliderAdapter
 import com.example.xml_ver.databinding.FragmentUserRegisterBinding
+import com.example.xml_ver.util.setupButtonState
+import com.example.xml_ver.util.setupSpinner
 import com.example.xml_ver.util.userProfileList
 import com.example.xml_ver.viewModel.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,10 +45,10 @@ class UserRegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewPager()
-        setupSpinner(binding.genderField, R.array.gender_items) { gender ->
+        setupSpinner(binding.genderField, R.array.gender_items, requireContext()) { gender ->
             userViewModel.gender.value = gender
         }
-        setupSpinner(binding.majorField, R.array.major_items) { major ->
+        setupSpinner(binding.majorField, R.array.major_items, requireContext()) { major ->
             userViewModel.major.value = major
         }
         setButtonEnable()
@@ -70,39 +72,6 @@ class UserRegisterFragment : Fragment() {
         viewPager = binding.viewPager
         val adapter = UserSliderAdapter()
         viewPager.adapter = adapter
-    }
-
-    private fun setupSpinner(
-        spinner: Spinner,
-        itemsArrayResId: Int,
-        onItemSelectedAction: (String) -> Unit
-    ) {
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            itemsArrayResId,
-            R.layout.item_dropdown
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
-
-        spinner.setSelection(0)
-
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val selectedItem = parent.getItemAtPosition(position) as String
-                if (position != 0) {
-                    onItemSelectedAction(selectedItem)
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
     }
 
     private fun setupButtons() {
@@ -147,24 +116,7 @@ class UserRegisterFragment : Fragment() {
     private fun setButtonEnable() {
         viewLifecycleOwner.lifecycleScope.launch {
             userViewModel.isValid.collect {
-                binding.registrationButton.isEnabled = it
-                binding.registrationButton.isClickable = it
-
-                if (it) {
-                    binding.registrationButton.setBackgroundColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.mainColor
-                        )
-                    )
-                } else {
-                    binding.registrationButton.setBackgroundColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.buttonDisabledColor
-                        )
-                    )
-                }
+                setupButtonState(it, binding.registrationButton, requireContext())
             }
         }
     }
