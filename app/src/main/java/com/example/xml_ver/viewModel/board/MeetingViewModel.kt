@@ -126,13 +126,17 @@ class MeetingViewModel @Inject constructor(
 
     var deadline: StateFlow<String> =
         combine(
-           deadlineYear,
+            deadlineYear,
             deadlineMonth,
             deadlineDay,
             deadlineTime
-        ) {  year, month, day, time ->
+        ) { year, month, day, time ->
             "$year $month $day $time"
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "${getCurrentYear()} 01월 01일 00시")
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            "${getCurrentYear()} 01월 01일 00시"
+        )
 
     var isValid: StateFlow<Boolean> =
         combine(
@@ -323,6 +327,7 @@ class MeetingViewModel @Inject constructor(
                 if (response.isSuccessful && response.body() != null) {
                     _postRegisterState.value = Resource.success(response.body())
                     Log.d("게시물 전송", response.body().toString())
+                    resetAll()
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
                     Log.e("API Error", "에러 응답: $errorBody")
@@ -331,6 +336,17 @@ class MeetingViewModel @Inject constructor(
                 Log.e("API Exception", "요청 중 예외 발생: ${e.message}")
             }
         }
+    }
+
+    private fun resetAll() {
+        title.value = ""
+        deadlineYear.value = getCurrentYear()
+        deadlineMonth.value = "01월"
+        deadlineDay.value = "01일"
+        deadlineTime.value = "00시"
+        person.value = 0
+        content.value = ""
+        _postRegisterState.value = Resource.loading(null)
     }
 
     fun sendAcceptationRequest(pId: Int) {

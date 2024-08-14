@@ -173,7 +173,9 @@ class MeetingPostRegisterFragment : Fragment() {
             postViewModel.postRegisterState.collect { state ->
                 when (state) {
                     is Resource.Success<PostResponseModel> -> {
-
+                        findNavController().popBackStack()
+                        (activity as MainActivity).showFloatingButton()
+                        (activity as MainActivity).showBottomNavigation()
                     }
 
                     is Resource.Error<PostResponseModel> -> {
