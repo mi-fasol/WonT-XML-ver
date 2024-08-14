@@ -93,117 +93,11 @@ class ClubPostViewModel @Inject constructor(
         }
     }
 
-    private val _isSearching = MutableStateFlow(false)
-    val isSearching = _isSearching.asStateFlow()
-
-    private val _searchText = MutableStateFlow("")
-    val searchText = _searchText.asStateFlow()
-
     init {
         viewModelScope.launch {
             getClubPostList()
         }
     }
-
-//    fun isHangul(c: Char): Boolean {
-//        return c.toInt() in 0xAC00..0xD7A3 || c in 'ㄱ'..'ㅣ'
-//    }
-//
-//    fun getHangulInitialSound(c: Char): Char {
-//        val init = ((c.toInt() - 0xAC00) / 28 / 21).toChar()
-//        return if (init in 'ㄱ'..'ㅎ') init + '가'.toInt() - 'ㄱ'.toInt() else init
-//    }
-//
-//    fun filterPostsByTitle(searchText: String): List<ClubPostResponseModel> {
-//        return _clubPostList.value.filter { post ->
-//            post.containsHangulSearch(searchText)
-//        }
-//    }
-
-//    fun onSearchTextChange(text: String) {
-//        _searchText.value = text
-//    }
-//
-//    fun onToogleSearch() {
-//        _isSearching.value = !_isSearching.value
-//        if (!_isSearching.value) {
-//            onSearchTextChange("")
-//        }
-//    }
-//
-//    private val _filteredClubPost = MutableStateFlow<List<ClubPostModel>>(emptyList())
-//    val filteredPostList = searchText.combine(
-//        _filteredClubPost
-//    ) { text, posts ->
-//        if (text.isBlank()) {
-//            _clubPostList.value
-//        } else {
-//            val filteredText = text.trim()
-//            val isInitialSearch = filteredText.all { it.isHangul() }
-//            val initials = if (isInitialSearch) {
-//                (HangulUtils.getHangulInitialSound(filteredText) as List<String>).joinToString("")
-//            } else {
-//                filteredText
-//            }
-//            posts.filter { post ->
-//                val title = post.title.trim()
-//                val titleInitials = (HangulUtils.getHangulInitialSound(filteredText) as List<String>).joinToString("")
-//                val containsInitials = titleInitials.contains(initials, ignoreCase = true)
-//                val containsText = title.contains(filteredText, ignoreCase = true)
-//                val containsInitialLastChar =
-//                    if (isInitialSearch && filteredText.isNotEmpty() && filteredText.last().isHangul()) {
-//                        val lastCharInitial =
-//                            HangulUtils.getHangulInitialSound(filteredText.last().toString()).first()
-//                        titleInitials.contains(lastCharInitial, ignoreCase = true)
-//                    } else {
-//                        true
-//                    }
-//                containsInitials || (containsText && containsInitialLastChar)
-//            }
-//        }
-//    }.stateIn(
-//        scope = viewModelScope,
-//        started = SharingStarted.WhileSubscribed(5000),
-//        initialValue = emptyList()
-//    )
-
-//    private val _filteredClubPost = MutableStateFlow(_clubPostList)
-//    val filteredPostList = searchText.combine(
-//        _filteredClubPost
-//    ) { text, posts ->
-//        if (text.isBlank()) {
-//            _clubPostList.value
-//        } else {
-//            val filteredText = text.trim()
-//            val isInitialSearch = filteredText.all { it.isHangul() }
-//            val initials = if (isInitialSearch) {
-//                (HangulUtils.getHangulInitialSound(filteredText) as List<String>).joinToString("")
-//            } else {
-//                filteredText
-//            }
-//            posts.value.filter { post ->
-//                val title = post.title.trim()
-//                val titleInitials = (HangulUtils.getHangulInitialSound(filteredText) as List<String>).joinToString("")
-//                val containsInitials = titleInitials.contains(initials, ignoreCase = true)
-//                val containsText = title.contains(filteredText, ignoreCase = true)
-//                val containsInitialLastChar =
-//                    if (isInitialSearch && filteredText.isNotEmpty() && filteredText.last().isHangul()
-//                    ) {
-//                        val lastCharInitial =
-//                            hangulUtils.getHangulInitialSound(filteredText.last().toString())
-//                                .first()
-//                        titleInitials.contains(lastCharInitial, ignoreCase = true)
-//                    } else {
-//                        true
-//                    }
-//                containsInitials || (containsText && containsInitialLastChar)
-//            }
-//        }
-//    }.stateIn(
-//        scope = viewModelScope,
-//        started = SharingStarted.WhileSubscribed(5000),
-//        initialValue = _clubPostList.value
-//    )
 
     suspend fun getClubPostList() {
         viewModelScope.launch {
@@ -285,9 +179,9 @@ class ClubPostViewModel @Inject constructor(
             try {
                 val response = repository.registerClubPost(post)
                 if (response.isSuccessful && response.body() != null) {
-//                    _registerState.value = Resource.success(response.body())
                     _clubPostRegisterState.value = Resource.success(response.body())
                     Log.d("게시물 전송", response.body().toString())
+                    resetAll()
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
                     Log.e("API Error", "에러 응답: $errorBody")
@@ -296,6 +190,15 @@ class ClubPostViewModel @Inject constructor(
                 Log.e("API Exception", "요청 중 예외 발생: ${e.message}")
             }
         }
+    }
+
+    private fun resetAll() {
+        title.value = ""
+        description.value = ""
+        image.value = ""
+        person.value = 0
+        content.value = ""
+        _clubPostRegisterState.value = Resource.loading(null)
     }
 
     fun deletePost(pId: Int) {
