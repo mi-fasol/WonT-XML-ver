@@ -93,6 +93,11 @@
         android:name="com.example.xml_ver.ui.main.board.register.MeetingPostRegisterFragment"
         tools:layout="@layout/fragment_meeting_post_register"/>
 
+    <fragment
+        android:id="@+id/hotPlacePostRegisterFragment"
+        android:name="com.example.xml_ver.ui.main.board.register.HotPlacePostRegisterFragment"
+        tools:layout="@layout/fragment_hot_place_post_register"
+        />
 
     <fragment
         android:id="@+id/clubPostRegisterFragment"

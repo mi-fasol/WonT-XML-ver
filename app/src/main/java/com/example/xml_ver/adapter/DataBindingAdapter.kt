@@ -38,6 +38,14 @@ object DateBindingAdapter {
     }
 
     @JvmStatic
+    @BindingAdapter("android:imageList")
+    fun setImageListText(view: TextView, cnt: Int?) {
+        cnt?.let {
+            view.text = "${cnt}/4"
+        }
+    }
+
+    @JvmStatic
     @BindingAdapter("android:wishColor")
     fun setWishButtonColor(view: ImageButton, wish: Boolean?) {
         wish?.let {

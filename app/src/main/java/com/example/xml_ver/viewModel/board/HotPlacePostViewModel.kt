@@ -190,7 +190,6 @@ class HotPlacePostViewModel @Inject constructor(
 
     fun registerPost() {
         val today = getCurrentDateTime()
-
         val _image = image.value.ifEmpty {
             null
         }
@@ -211,8 +210,8 @@ class HotPlacePostViewModel @Inject constructor(
             try {
                 val response = repository.registerHotPlacePost(post)
                 if (response.isSuccessful && response.body() != null) {
-//                    _registerState.value = Resource.success(response.body())
                     _hotPlacePostRegisterState.value = Resource.success(response.body())
+                    resetAll()
                     Log.d("게시물 전송", response.body().toString())
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
@@ -222,6 +221,13 @@ class HotPlacePostViewModel @Inject constructor(
                 Log.e("API Exception", "요청 중 예외 발생: ${e.message}")
             }
         }
+    }
+
+    private fun resetAll() {
+        title.value = ""
+        content.value = ""
+        description.value = ""
+        image.value = emptyList()
     }
 
     fun deletePost(pId: Int) {

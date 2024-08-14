@@ -112,6 +112,14 @@ class MainActivity : AppCompatActivity() {
             binding.mainFloatingButton.visibility = View.GONE
         }
 
+        binding.hotPlaceWriteButton.setOnClickListener {
+            navController.navigate(R.id.hotPlacePostRegisterFragment)
+            binding.meetingPostWriteButton.visibility = View.GONE
+            binding.clubPostWriteButton.visibility = View.GONE
+            binding.hotPlaceWriteButton.visibility = View.GONE
+            binding.mainFloatingButton.visibility = View.GONE
+        }
+
         binding.clubPostWriteButton.apply {
             visibility = View.VISIBLE
             alpha = 0f

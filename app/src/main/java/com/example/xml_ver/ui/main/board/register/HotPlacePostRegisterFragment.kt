@@ -3,17 +3,14 @@ package com.example.xml_ver.ui.main.board.register
 import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
@@ -26,52 +23,71 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.haemo_kotlin.network.Resource
 import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
-import com.example.xml_ver.data.retrofit.post.ClubPostResponseModel
-import com.example.xml_ver.databinding.FragmentClubPostRegisterBinding
+import com.example.xml_ver.adapter.ImageAdapter
+import com.example.xml_ver.data.retrofit.post.HotPlaceResponsePostModel
+import com.example.xml_ver.databinding.FragmentHotPlacePostRegisterBinding
 import com.example.xml_ver.databinding.PopupItemBackgroundBinding
 import com.example.xml_ver.databinding.PopupLayoutBinding
-import com.example.xml_ver.util.personList
 import com.example.xml_ver.util.setupButtonState
-import com.example.xml_ver.util.setupSpinnerClickEvent
 import com.example.xml_ver.viewModel.MainViewModel
-import com.example.xml_ver.viewModel.board.ClubPostViewModel
+import com.example.xml_ver.viewModel.board.HotPlacePostViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
 
 @AndroidEntryPoint
-class ClubPostRegisterFragment : Fragment() {
-    private var _binding: FragmentClubPostRegisterBinding? = null
+class HotPlacePostRegisterFragment : Fragment() {
+    private var _binding: FragmentHotPlacePostRegisterBinding? = null
     private val binding get() = _binding!!
-    private val postViewModel: ClubPostViewModel by viewModels()
+    private val postViewModel: HotPlacePostViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
-    private lateinit var personAdapter: ArrayAdapter<String>
+    private lateinit var imageAdapter: ImageAdapter
+    private val selectedImageUris = mutableListOf<Uri>()
     private var photoUri: Uri? = null
 
     private val galleryLauncher =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                postViewModel.uploadImage(it)
+        registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris: List<Uri>? ->
+            uris?.let {
+                if (it.size <= 4) {
+                    selectedImageUris.clear()
+                    selectedImageUris.addAll(it)
+                    postViewModel.uploadImageList(it)
+                    setupRecyclerView()
+                } else {
+                    Toast.makeText(requireContext(), "최대 4개의 이미지를 선택할 수 있습니다.", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
 
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-            if (success) {
+            if (success && photoUri != null) {
+                selectedImageUris.clear()
                 photoUri?.let {
-                    postViewModel.uploadImage(it)
+                    selectedImageUris.add(it)
+                    postViewModel.uploadImageList(listOf(it))
+                    setupRecyclerView()
                 }
             }
         }
 
     private val filePickerLauncher =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
-            uri?.let {
-                postViewModel.uploadImage(it)
+        registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris: List<Uri>? ->
+            uris?.let {
+                if (it.size <= 4) {
+                    selectedImageUris.clear()
+                    selectedImageUris.addAll(it)
+                    postViewModel.uploadImageList(it)
+                    setupRecyclerView()
+                } else {
+                    Toast.makeText(requireContext(), "최대 4개의 이미지를 선택할 수 있습니다.", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
 
@@ -89,7 +105,7 @@ class ClubPostRegisterFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentClubPostRegisterBinding.inflate(inflater, container, false).apply {
+        _binding = FragmentHotPlacePostRegisterBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
         }
         return binding.root
@@ -100,20 +116,13 @@ class ClubPostRegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
-        setupSpinners()
-        setupAllSpinner()
         setupEditText()
         setButton()
         setupImagePicker()
+        binding.num = 0
 
         (activity as MainActivity).hideBottomNavigation()
         (activity as MainActivity).hideFloatingButton()
-    }
-
-    private fun setupAllSpinner() {
-        setupSpinnerClickEvent(binding.personEnterField) { person ->
-            postViewModel.person.value = personList.indexOf(person)
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -123,15 +132,6 @@ class ClubPostRegisterFragment : Fragment() {
             (activity as MainActivity).showBottomNavigation()
             (activity as MainActivity).showFloatingButton()
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun setupSpinners() {
-        personAdapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, personList)
-        personAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        binding.personEnterField.adapter = personAdapter
     }
 
     private fun setupEditText() {
@@ -183,24 +183,23 @@ class ClubPostRegisterFragment : Fragment() {
         binding.imagePickerBox.setOnClickListener {
             showImagePickerPopup(binding.imagePickerBox)
         }
+    }
 
+    private fun setupRecyclerView() {
         viewLifecycleOwner.lifecycleScope.launch {
             postViewModel.image.collect {
-                if (it.isNotBlank()) {
-                    binding.imagePickerImage.apply {
-                        Glide.with(this@ClubPostRegisterFragment)
-                            .load(it)
-                            .placeholder(R.drawable.dummy_image)
-                            .error(R.drawable.error_image)
-                            .into(this)
-                        visibility = View.VISIBLE
-                    }
+                if (it.isNotEmpty()) {
+                    imageAdapter = ImageAdapter(it.toMutableList()) { position ->
 
-                    binding.imagePickerLogo.visibility = View.GONE
-                    binding.imagePickerText.visibility = View.GONE
+                    }
+                    binding.imageRecyclerView.adapter = imageAdapter
+                    binding.imageRecyclerView.layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    binding.num = it.size
                 }
             }
         }
+
     }
 
     private fun showImagePickerPopup(anchorView: View) {
@@ -304,15 +303,15 @@ class ClubPostRegisterFragment : Fragment() {
     private fun tryRegister() {
         viewLifecycleOwner.lifecycleScope.launch {
             postViewModel.registerPost()
-            postViewModel.clubPostRegisterState.collect { state ->
+            postViewModel.hotPlacePostRegisterState.collect { state ->
                 when (state) {
-                    is Resource.Success<ClubPostResponseModel> -> {
+                    is Resource.Success<HotPlaceResponsePostModel> -> {
                         findNavController().popBackStack()
                         (activity as MainActivity).showFloatingButton()
                         (activity as MainActivity).showBottomNavigation()
                     }
 
-                    is Resource.Error<ClubPostResponseModel> -> {
+                    is Resource.Error<HotPlaceResponsePostModel> -> {
                     }
 
                     else -> {

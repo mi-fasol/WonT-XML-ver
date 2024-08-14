@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="num"
+            type="Integer" />
+
+        <variable
+            name="mainViewModel"
+            type="com.example.xml_ver.viewModel.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/club_register_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mainColor"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_marginVertical="5dp"
+                    android:background="@color/mainColor"
+                    android:theme="?attr/actionBarTheme"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:navigationIcon="@drawable/baseline_arrow_back_ios_white_24"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+                <TextView
+                    style="@style/MainPageAppBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="소모임 등록"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <TextView
+            android:id="@+id/title_text"
+            style="@style/EnterField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="35dp"
+            android:layout_marginStart="30dp"
+            android:text="소모임"
+            android:textColor="@color/mainColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/club_register_appbar" />
+
+        <EditText
+            android:id="@+id/title_enter_field"
+            style="@style/MeetingScreenTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="35dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="35dp"
+            android:hint="소모임 이름을 입력해 주세요."
+            android:textAppearance="@style/EnterField"
+            app:layout_constraintBaseline_toBaselineOf="@id/title_text"
+            app:layout_constraintStart_toEndOf="@id/title_text"
+            app:layout_constraintTop_toBottomOf="@id/club_register_appbar"
+            app:layout_constraintWidth_percent="0.65" />
+
+        <TextView
+            android:id="@+id/description_text"
+            style="@style/EnterField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="30dp"
+            android:text="설명"
+            android:textColor="@color/mainColor"
+            app:layout_constraintEnd_toEndOf="@id/title_text"
+            app:layout_constraintStart_toStartOf="@id/title_text"
+            app:layout_constraintTop_toBottomOf="@id/title_text" />
+
+        <EditText
+            android:id="@+id/description_enter_field"
+            style="@style/MeetingScreenTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="35dp"
+            android:hint="소모임에 대해 설명해 주세요."
+            android:textAppearance="@style/EnterField"
+            app:layout_constraintBaseline_toBaselineOf="@id/description_text"
+            app:layout_constraintStart_toStartOf="@id/title_enter_field"
+            app:layout_constraintTop_toBottomOf="@id/club_register_appbar"
+            app:layout_constraintWidth_percent="0.65" />
+
+        <FrameLayout
+            android:id="@+id/image_picker_box"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/club_deadline_background"
+            app:layout_constraintStart_toStartOf="@id/description_text"
+            app:layout_constraintTop_toBottomOf="@id/description_text">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/image_picker_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="logo"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/dummy_image"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/image_picker_logo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/image_picker_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/image_picker_text"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    android:imageList="@{num}"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@id/image_picker_logo"
+                    app:layout_constraintStart_toStartOf="@id/image_picker_logo"
+                    app:layout_constraintTop_toBottomOf="@id/image_picker_logo" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/image_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toEndOf="@id/image_picker_box"
+            app:layout_constraintTop_toTopOf="@id/image_picker_box"
+            app:layout_constraintWidth_percent="0.55"
+            tools:listitem="@layout/item_image_list" />
+
+        <FrameLayout
+            android:id="@+id/edit_text_background"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="35dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/search_bar_background"
+            android:padding="10dp"
+            app:layout_constraintHeight_percent="0.43"
+            app:layout_constraintStart_toStartOf="@id/title_text"
+            app:layout_constraintTop_toBottomOf="@id/image_picker_box">
+
+            <EditText
+                android:id="@+id/content_enter_field"
+                style="@style/ContentEnterText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="소모임에 대한 내용을 입력해 주세요."
+                android:maxLength="300"
+                android:textAppearance="@style/ContentEnterText"
+                android:textColor="@color/mainTextColor"
+                app:layout_constraintStart_toStartOf="@id/title_enter_field"
+                app:layout_constraintTop_toBottomOf="@id/hour_enter_field" />
+
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="35dp"
+            android:backgroundTint="@color/mainColor"
+            android:text="등록하기"
+            android:textAppearance="@style/ButtonText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/title_text"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_background" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
