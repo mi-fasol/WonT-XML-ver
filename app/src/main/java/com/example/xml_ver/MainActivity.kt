@@ -1,9 +1,5 @@
 package com.example.xml_ver
 
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -11,15 +7,9 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.xml_ver.databinding.ActivityMainBinding
-import com.example.xml_ver.ui.main.board.ClubFragment
-import com.example.xml_ver.ui.main.board.HotPlaceFragment
-import com.example.xml_ver.ui.main.board.MeetingFragment
-import com.example.xml_ver.ui.main.board.detail.MeetingDetailFragment
-import com.example.xml_ver.ui.main.setting.MyPageFragment
 import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.util.userMyPageImageList
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -105,9 +95,21 @@ class MainActivity : AppCompatActivity() {
             scaleY = 0f
             animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(200).start()
         }
+
         binding.meetingPostWriteButton.setOnClickListener {
-            navController.navigate(R.id.postMeetingFragment)
-            isExpanded = false
+            navController.navigate(R.id.meetingPostRegisterFragment)
+            binding.meetingPostWriteButton.visibility = View.GONE
+            binding.clubPostWriteButton.visibility = View.GONE
+            binding.hotPlaceWriteButton.visibility = View.GONE
+            binding.mainFloatingButton.visibility = View.GONE
+        }
+
+        binding.clubPostWriteButton.setOnClickListener {
+            navController.navigate(R.id.clubPostRegisterFragment)
+            binding.meetingPostWriteButton.visibility = View.GONE
+            binding.clubPostWriteButton.visibility = View.GONE
+            binding.hotPlaceWriteButton.visibility = View.GONE
+            binding.mainFloatingButton.visibility = View.GONE
         }
 
         binding.clubPostWriteButton.apply {
@@ -154,8 +156,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun hideFloatingButton() {
-        binding.mainFloatingButton.visibility = View.GONE
         isExpanded = false
+        binding.mainFloatingButton.visibility = View.GONE
     }
 
     fun showFloatingButton() {

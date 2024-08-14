@@ -89,9 +89,15 @@
     </fragment>
 
     <fragment
-        android:id="@+id/postMeetingFragment"
+        android:id="@+id/meetingPostRegisterFragment"
         android:name="com.example.xml_ver.ui.main.board.register.MeetingPostRegisterFragment"
         tools:layout="@layout/fragment_meeting_post_register"/>
+
+
+    <fragment
+        android:id="@+id/clubPostRegisterFragment"
+        android:name="com.example.xml_ver.ui.main.board.register.ClubPostRegisterFragment"
+        tools:layout="@layout/fragment_club_post_register"/>
 
     <fragment
         android:id="@+id/myMeetingFragment"

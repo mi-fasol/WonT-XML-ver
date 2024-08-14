@@ -84,7 +84,7 @@ class ClubPostViewModel @Inject constructor(
             try {
                 val result = imageRepository.uploadImage(imageUri)
                 image.value = result
-                Log.d("사진", result)
+                Log.d("사진", image.value)
             } catch (e: HttpException) {
                 Log.e("ImageUploadViewModel", "API Error: HTTP ${e.code()} ${e.message}")
             } catch (e: Exception) {
