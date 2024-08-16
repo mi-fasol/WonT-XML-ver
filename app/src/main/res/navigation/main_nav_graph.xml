@@ -53,6 +53,25 @@
     </fragment>
 
     <fragment
+        android:id="@+id/chatListFragment"
+        android:name="com.example.xml_ver.ui.main.chat.ChatListFragment"
+        tools:layout="@layout/fragment_chat_list">
+<!--        <action-->
+<!--            android:id="@+id/action_chatListFragment_to_chatRoomFragment"-->
+<!--            app:destination="@id/clubDetailFragment">-->
+<!--            <argument-->
+<!--                android:name="chatId"-->
+<!--                app:argType="string" />-->
+<!--            <argument-->
+<!--                android:name="nickname"-->
+<!--                app:argType="string" />-->
+<!--            <argument-->
+<!--                android:name="userImage"-->
+<!--                app:argType="integer" />-->
+<!--        </action>-->
+    </fragment>
+
+    <fragment
         android:id="@+id/myPageFragment"
         android:name="com.example.xml_ver.ui.main.setting.MyPageFragment"
         tools:layout="@layout/fragment_my_page" />

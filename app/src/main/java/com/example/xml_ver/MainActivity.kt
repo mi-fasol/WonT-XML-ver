@@ -1,5 +1,9 @@
 package com.example.xml_ver
 
+import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,10 +14,63 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.xml_ver.databinding.ActivityMainBinding
+import com.example.xml_ver.service.MyFirebaseMessagingService
 import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.util.userMyPageImageList
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class MainApplication : Application() {
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onCreate() {
+        super.onCreate()
+
+        try {
+            FirebaseApp.initializeApp(this)
+            Log.d("FirebaseApp", "Firebase 초기화 성공")
+        } catch (e: Exception) {
+            Log.e("FirebaseApp", "Firebase 초기화 실패", e)
+        }
+
+        val notificationChannel = NotificationChannel(
+            "chat_notification",
+            "Chat",
+            NotificationManager.IMPORTANCE_HIGH
+        )
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(notificationChannel)
+
+        startFirebaseMessagingService()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createNotificationChannel()
+        }
+
+        startFirebaseMessagingService()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel() {
+        val channel = NotificationChannel(
+            "chat_notification",
+            "Chat Notifications",
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = "Channel for chat notifications"
+        }
+
+        val manager = getSystemService(NotificationManager::class.java)
+        manager.createNotificationChannel(channel)
+    }
+
+    private fun startFirebaseMessagingService() {
+        val intent = Intent(this, MyFirebaseMessagingService::class.java)
+        startService(intent)
+    }
+}
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

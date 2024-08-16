@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.PostAdapter
@@ -88,7 +89,7 @@ class MeetingFragment : Fragment() {
             binding.toolbar.setOnMenuItemClickListener { menuItem: MenuItem ->
                 when (menuItem.itemId) {
                     R.id.chat_list_page_navigation -> {
-                        NavHostFragment.findNavController(this@MeetingFragment).popBackStack()
+                        findNavController().navigate(R.id.chatListFragment)
                         true
                     }
 

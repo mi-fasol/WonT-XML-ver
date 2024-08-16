@@ -1,6 +1,8 @@
 package com.example.xml_ver.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.xml_ver.data.retrofit.chat.ChatMessageModel
+import com.example.xml_ver.data.retrofit.chat.FireBaseChatModel
 import com.example.xml_ver.data.retrofit.comment.comment.CommentResponseModel
 import com.example.xml_ver.data.retrofit.comment.reply.ReplyResponseModel
 import com.example.xml_ver.data.retrofit.post.ClubPostResponseModel
@@ -79,6 +81,22 @@ class ReplyDiffCallback : DiffUtil.ItemCallback<ReplyResponseModel>() {
     override fun areContentsTheSame(
         oldItem: ReplyResponseModel,
         newItem: ReplyResponseModel
+    ): Boolean {
+        return oldItem == newItem
+    }
+}
+
+class ChatListDiffCallback : DiffUtil.ItemCallback<FireBaseChatModel>() {
+    override fun areItemsTheSame(
+        oldItem: FireBaseChatModel,
+        newItem: FireBaseChatModel
+    ): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(
+        oldItem: FireBaseChatModel,
+        newItem: FireBaseChatModel
     ): Boolean {
         return oldItem == newItem
     }

@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.xml_ver.R
 import com.example.xml_ver.util.convertDate
 import com.example.xml_ver.util.userMyPageImageList
+import com.tbuonomo.viewpagerdotsindicator.setBackgroundCompat
 import java.util.*
 
 object DateBindingAdapter {
