@@ -1,6 +1,7 @@
 package com.example.xml_ver.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.NavController
@@ -35,7 +36,8 @@ class ChatListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        val binding = ItemChatListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemChatListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostViewHolder(binding)
     }
 
@@ -47,14 +49,19 @@ class ChatListAdapter(
     inner class PostViewHolder(private val binding: ItemChatListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(chat: FireBaseChatModel) {
-            binding.chatContent = chat.messages[chat.messages.size-1].content
+            binding.chatContent = chat.messages[chat.messages.size - 1].content
             binding.mainViewModel = mainViewModel
 
-            val receiver = chatListViewModel.chatList.value[chat.id]
-
-            receiver?.let {
-                binding.userImage = it.userImage
-                binding.nickname = it.nickname
+            CoroutineScope(Dispatchers.Main).launch {
+                chatListViewModel.chatList.collect {
+                    val receiver = it[chat.id]
+                    if (receiver != null) {
+                        binding.userImage = receiver.userImage
+                        binding.nickname = receiver.nickname
+                    } else {
+                        Log.d("미란 로그", it.toString())
+                    }
+                }
             }
 
             binding.executePendingBindings()

@@ -17,6 +17,7 @@ import com.example.xml_ver.adapter.ChatListAdapter
 import com.example.xml_ver.adapter.PostAdapter
 import com.example.xml_ver.adapter.TodayPostAdapter
 import com.example.xml_ver.databinding.FragmentChatListBinding
+import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.viewModel.MainViewModel
 import com.example.xml_ver.viewModel.board.AcceptationViewModel
 import com.example.xml_ver.viewModel.chat.ChatListViewModel
@@ -79,10 +80,10 @@ class ChatListFragment : Fragment() {
 
     private fun getChatList() {
         viewLifecycleOwner.lifecycleScope.launch {
+            SharedPreferenceUtil(requireContext()).setInt("uId", 19)
             chatListViewModel.getChatList()
             chatListViewModel.fireBaseChatModel.collect {
                 chatListAdapter.submitList(it)
-
             }
         }
     }

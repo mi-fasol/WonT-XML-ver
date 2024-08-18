@@ -179,6 +179,7 @@ class ChatListViewModel @Inject constructor(
     }
 
     fun getChatList() {
+        Log.d("미란", "데햇")
         val chatListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.value?.let {
