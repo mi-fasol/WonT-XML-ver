@@ -28,12 +28,7 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        try {
-            FirebaseApp.initializeApp(this)
-            Log.d("FirebaseApp", "Firebase 초기화 성공")
-        } catch (e: Exception) {
-            Log.e("FirebaseApp", "Firebase 초기화 실패", e)
-        }
+        FirebaseApp.initializeApp(this)
 
         val notificationChannel = NotificationChannel(
             "chat_notification",
