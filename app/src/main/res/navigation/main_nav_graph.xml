@@ -56,19 +56,22 @@
         android:id="@+id/chatListFragment"
         android:name="com.example.xml_ver.ui.main.chat.ChatListFragment"
         tools:layout="@layout/fragment_chat_list">
-<!--        <action-->
-<!--            android:id="@+id/action_chatListFragment_to_chatRoomFragment"-->
-<!--            app:destination="@id/clubDetailFragment">-->
-<!--            <argument-->
-<!--                android:name="chatId"-->
-<!--                app:argType="string" />-->
-<!--            <argument-->
-<!--                android:name="nickname"-->
-<!--                app:argType="string" />-->
-<!--            <argument-->
-<!--                android:name="userImage"-->
-<!--                app:argType="integer" />-->
-<!--        </action>-->
+        <action
+            android:id="@+id/action_chatListFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment">
+            <argument
+                android:name="chatId"
+                app:argType="string" />
+            <argument
+                android:name="nickname"
+                app:argType="string" />
+            <argument
+                android:name="userImage"
+                app:argType="integer" />
+            <argument
+                android:name="receiverId"
+                app:argType="integer" />
+        </action>
     </fragment>
 
     <fragment
@@ -122,6 +125,32 @@
         android:id="@+id/clubPostRegisterFragment"
         android:name="com.example.xml_ver.ui.main.board.register.ClubPostRegisterFragment"
         tools:layout="@layout/fragment_club_post_register"/>
+
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.example.xml_ver.ui.main.chat.ChatRoomFragment"
+        tools:layout="@layout/fragment_chat_room">
+        <argument
+            android:name="userImage"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <argument
+            android:name="receiverId"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+
+        <argument
+            android:name="chatId"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="nickname"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/myMeetingFragment"

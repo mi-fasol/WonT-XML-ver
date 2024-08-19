@@ -26,48 +26,50 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:orientation="horizontal"
-        android:paddingBottom="15dp">
+        android:paddingBottom="8dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.8">
-
-            <TextView
-                android:id="@+id/chat_time"
-                style="@style/ChatMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:text="01시 33분"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/received_message_field" />
-
-            <FrameLayout
-                android:id="@+id/received_message_field"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:minHeight="45dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.9">
+
+                <FrameLayout
+                    android:id="@+id/received_message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintWidth_percent="0.7">
+
+                    <TextView
+                        style="@style/ChatMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/message_from_me_background"
+                        android:minHeight="45dp"
+                        android:padding="15dp"
+                        android:text="@{chatContent}"
+                        android:textColor="@color/mainTextColor" />
+                </FrameLayout>
 
                 <TextView
-                    android:id="@+id/received_message"
+                    android:id="@+id/chat_time"
                     style="@style/ChatMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center||end"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/message_from_me_background"
-                    android:padding="15dp"
-                    android:text="@{chatContent}"
-                    android:textColor="@color/mainTextColor" />
-            </FrameLayout>
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="01시 33분"
+                    app:layout_constraintEnd_toEndOf="@id/received_message"
+                    app:layout_constraintTop_toBottomOf="@id/received_message" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

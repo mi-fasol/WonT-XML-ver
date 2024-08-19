@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="nickname"
             type="String" />
@@ -52,6 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@{nickname}"
+                    android:textColor="@color/mainTextColor"
                     style="@style/ChatRoomAppBar"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
