@@ -67,6 +67,11 @@ class ChatRoomAdapter(
         }
     }
 
+    override fun submitList(list: List<ChatMessageModel>?) {
+        super.submitList(list)
+        notifyItemInserted(list?.size ?: 0)
+    }
+
     inner class ReceivedMessageViewHolder(private val binding: ItemMessageFromOtherBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

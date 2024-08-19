@@ -1,33 +1,21 @@
 package com.example.xml_ver.ui.main.chat
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.MainActivity
-import com.example.xml_ver.R
-import com.example.xml_ver.adapter.ChatListAdapter
 import com.example.xml_ver.adapter.ChatRoomAdapter
-import com.example.xml_ver.adapter.CommentAdapter
-import com.example.xml_ver.adapter.PostAdapter
-import com.example.xml_ver.adapter.TodayPostAdapter
-import com.example.xml_ver.databinding.FragmentChatListBinding
+import com.example.xml_ver.data.retrofit.chat.ChatMessageModel
 import com.example.xml_ver.databinding.FragmentChatRoomBinding
-import com.example.xml_ver.ui.main.board.detail.MeetingDetailFragmentArgs
 import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.viewModel.MainViewModel
-import com.example.xml_ver.viewModel.board.AcceptationViewModel
-import com.example.xml_ver.viewModel.chat.ChatListViewModel
 import com.example.xml_ver.viewModel.chat.ChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -65,7 +53,8 @@ class ChatRoomFragment : Fragment() {
 
         setupChatListRecyclerView()
         setupToolbar(view)
-        getChatList()
+        getChatInfo()
+        sendMessage()
 
         (activity as MainActivity).hideBottomNavigation()
         (activity as MainActivity).hideFloatingButton()
@@ -79,22 +68,43 @@ class ChatRoomFragment : Fragment() {
         }
     }
 
+    private fun sendMessage() {
+        binding.messageSendButton.setOnClickListener {
+            if (binding.messageEditTextView.text.isNotBlank()){
+                chatViewModel.sendMessage(
+                    receiverId,
+                    ChatMessageModel(
+                        binding.messageEditTextView.text.toString(),
+                        System.currentTimeMillis(),
+                        SharedPreferenceUtil(requireContext()).getUser().uId,
+                        SharedPreferenceUtil(requireContext()).getUser().nickname,
+                        false
+                    )
+                )
+                binding.messageEditTextView.text.clear()
+            }
+        }
+    }
+
     private fun setupToolbar(view: View) {
         binding.apply {
             binding.nickname = receiverNickname
 
-            binding.navigationButton.setOnClickListener{
+            binding.navigationButton.setOnClickListener {
                 findNavController().popBackStack()
             }
         }
     }
 
 
-    private fun getChatList() {
+    private fun getChatInfo() {
         viewLifecycleOwner.lifecycleScope.launch {
-            chatViewModel.getChatRoomInfo(chatId , receiverId)
+            chatViewModel.getChatRoomInfo(chatId, receiverId)
             chatViewModel.chatMessages.collect {
                 chatRoomAdapter.submitList(it)
+                binding.chatListRecyclerView.post {
+                    binding.chatListRecyclerView.scrollToPosition(it.size - 1)
+                }
             }
         }
     }

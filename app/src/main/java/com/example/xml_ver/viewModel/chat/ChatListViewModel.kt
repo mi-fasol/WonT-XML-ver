@@ -48,8 +48,6 @@ class ChatListViewModel @Inject constructor(
         val orderedChatList =
             chatRef.child(chatId).child("messages").orderByChild("createdAt").limitToLast(1)
 
-        Log.d("미란", "하아 씨발 들어왔는데 왜 $chatId")
-
         orderedChatList.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.value?.let { value ->
