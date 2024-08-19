@@ -101,3 +101,19 @@ class ChatListDiffCallback : DiffUtil.ItemCallback<FireBaseChatModel>() {
         return oldItem == newItem
     }
 }
+
+class ChatRoomDiffCallback : DiffUtil.ItemCallback<ChatMessageModel>() {
+    override fun areItemsTheSame(
+        oldItem: ChatMessageModel,
+        newItem: ChatMessageModel
+    ): Boolean {
+        return oldItem.createdAt == newItem.createdAt
+    }
+
+    override fun areContentsTheSame(
+        oldItem: ChatMessageModel,
+        newItem: ChatMessageModel
+    ): Boolean {
+        return oldItem == newItem
+    }
+}

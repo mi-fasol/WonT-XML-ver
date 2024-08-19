@@ -1,6 +1,7 @@
 package com.example.xml_ver.ui.main.chat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -11,36 +12,50 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.ChatListAdapter
+import com.example.xml_ver.adapter.ChatRoomAdapter
+import com.example.xml_ver.adapter.CommentAdapter
 import com.example.xml_ver.adapter.PostAdapter
 import com.example.xml_ver.adapter.TodayPostAdapter
-import com.example.xml_ver.data.retrofit.user.UserResponseModel
 import com.example.xml_ver.databinding.FragmentChatListBinding
+import com.example.xml_ver.databinding.FragmentChatRoomBinding
+import com.example.xml_ver.ui.main.board.detail.MeetingDetailFragmentArgs
 import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.viewModel.MainViewModel
 import com.example.xml_ver.viewModel.board.AcceptationViewModel
 import com.example.xml_ver.viewModel.chat.ChatListViewModel
+import com.example.xml_ver.viewModel.chat.ChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ChatListFragment : Fragment() {
-    private var _binding: FragmentChatListBinding? = null
+class ChatRoomFragment : Fragment() {
+    private var _binding: FragmentChatRoomBinding? = null
     private val binding get() = _binding!!
-    private val chatListViewModel: ChatListViewModel by viewModels()
+    private val chatViewModel: ChatViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
-    private lateinit var chatListAdapter: ChatListAdapter
+    private val args: ChatRoomFragmentArgs by navArgs()
+    private lateinit var chatRoomAdapter: ChatRoomAdapter
+    private var userImage = 0
+    private var receiverId = 0
+    private var receiverNickname = ""
+    private var chatId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentChatListBinding.inflate(inflater, container, false).apply {
-            chatListViewModel = chatListViewModel
+        _binding = FragmentChatRoomBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
+            userImage = args.userImage
+            receiverId = args.receiverId
+            receiverNickname = args.nickname
+            chatId = args.chatId
         }
         return binding.root
     }
@@ -51,38 +66,24 @@ class ChatListFragment : Fragment() {
         setupChatListRecyclerView()
         setupToolbar(view)
         getChatList()
+
+        (activity as MainActivity).hideBottomNavigation()
+        (activity as MainActivity).hideFloatingButton()
     }
 
     private fun setupChatListRecyclerView() {
-        chatListAdapter = ChatListAdapter(chatListViewModel, mainViewModel)
+        chatRoomAdapter = ChatRoomAdapter(requireContext(), userImage, chatViewModel)
         binding.chatListRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = chatListAdapter
-        }
-
-        chatListAdapter.setOnItemClickListener { chat ->
-            viewLifecycleOwner.lifecycleScope.launch {
-                val receiver = chat.id?.let {
-                    chatListViewModel.chatList.value[chat.id]
-                }
-
-                receiver?.let { r ->
-                    val action =
-                        ChatListFragmentDirections.actionChatListFragmentToChatRoomFragment(
-                            chatId = chat.id!!,
-                            nickname = r.nickname,
-                            receiverId = r.uId,
-                            userImage = r.userImage
-                        )
-                    NavHostFragment.findNavController(this@ChatListFragment).navigate(action)
-                }
-            }
+            adapter = chatRoomAdapter
         }
     }
 
     private fun setupToolbar(view: View) {
         binding.apply {
-            binding.toolbar.setOnClickListener {
+            binding.nickname = receiverNickname
+
+            binding.navigationButton.setOnClickListener{
                 findNavController().popBackStack()
             }
         }
@@ -91,10 +92,9 @@ class ChatListFragment : Fragment() {
 
     private fun getChatList() {
         viewLifecycleOwner.lifecycleScope.launch {
-            SharedPreferenceUtil(requireContext()).setInt("uId", 19)
-            chatListViewModel.getChatList()
-            chatListViewModel.fireBaseChatModel.collect {
-                chatListAdapter.submitList(it)
+            chatViewModel.getChatRoomInfo(chatId , receiverId)
+            chatViewModel.chatMessages.collect {
+                chatRoomAdapter.submitList(it)
             }
         }
     }
