@@ -83,6 +83,7 @@
         </FrameLayout>
 
         <Button
+            android:id="@+id/chat_button"
             style="@style/CommentContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -94,6 +95,7 @@
             app:layout_constraintWidth_percent="0.67" />
 
         <Button
+            android:id="@+id/report_button"
             style="@style/CommentContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

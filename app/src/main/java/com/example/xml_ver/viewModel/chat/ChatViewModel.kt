@@ -141,6 +141,7 @@ class ChatViewModel @Inject constructor(
     }
 
     fun findChatRoom(receiverId: Int) {
+        _chatId.value = ""
         chatRef.child("${receiverId}+${uId}").get().addOnSuccessListener { snapshot ->
             Log.d("미란", "일단 석세스로 들어옴")
             Log.d("미란","$receiverId + $uId")

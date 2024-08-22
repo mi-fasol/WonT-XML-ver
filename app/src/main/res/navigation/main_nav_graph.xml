@@ -74,6 +74,28 @@
         </action>
     </fragment>
 
+<!--    <fragment-->
+<!--        android:id="@+id/userProfileBottomSheet"-->
+<!--        android:name="com.example.xml_ver.ui.main.board.detail.MeetingDetailFragment"-->
+<!--        tools:layout="@layout/fragment_rounded_bottom_sheet">-->
+<!--        <action-->
+<!--            android:id="@+id/action_userProfileBottomSheet_to_chatRoomFragment"-->
+<!--            app:destination="@id/chatRoomFragment">-->
+<!--            <argument-->
+<!--                android:name="chatId"-->
+<!--                app:argType="string" />-->
+<!--            <argument-->
+<!--                android:name="nickname"-->
+<!--                app:argType="string" />-->
+<!--            <argument-->
+<!--                android:name="userImage"-->
+<!--                app:argType="integer" />-->
+<!--            <argument-->
+<!--                android:name="receiverId"-->
+<!--                app:argType="integer" />-->
+<!--        </action>-->
+<!--    </fragment>-->
+
     <fragment
         android:id="@+id/myPageFragment"
         android:name="com.example.xml_ver.ui.main.setting.MyPageFragment"
@@ -92,6 +114,23 @@
             android:name="nickname"
             android:defaultValue=""
             app:argType="string" />
+
+        <action
+            android:id="@+id/action_meetingDetailFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment">
+            <argument
+                android:name="chatId"
+                app:argType="string" />
+            <argument
+                android:name="nickname"
+                app:argType="string" />
+            <argument
+                android:name="userImage"
+                app:argType="integer" />
+            <argument
+                android:name="receiverId"
+                app:argType="integer" />
+        </action>
     </fragment>
 
     <fragment
@@ -213,6 +252,23 @@
             android:name="nickname"
             android:defaultValue=""
             app:argType="string" />
+
+        <action
+            android:id="@+id/action_clubDetailFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment">
+            <argument
+                android:name="chatId"
+                app:argType="string" />
+            <argument
+                android:name="nickname"
+                app:argType="string" />
+            <argument
+                android:name="userImage"
+                app:argType="integer" />
+            <argument
+                android:name="receiverId"
+                app:argType="integer" />
+        </action>
     </fragment>
 
     <fragment
@@ -228,6 +284,23 @@
             android:name="nickname"
             android:defaultValue=""
             app:argType="string" />
+
+        <action
+            android:id="@+id/action_hotPlaceDetailFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment">
+            <argument
+                android:name="chatId"
+                app:argType="string" />
+            <argument
+                android:name="nickname"
+                app:argType="string" />
+            <argument
+                android:name="userImage"
+                app:argType="integer" />
+            <argument
+                android:name="receiverId"
+                app:argType="integer" />
+        </action>
     </fragment>
 
 </navigation>

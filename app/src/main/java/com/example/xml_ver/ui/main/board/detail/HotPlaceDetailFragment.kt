@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -28,6 +29,7 @@ import com.example.xml_ver.viewModel.MainViewModel
 import com.example.xml_ver.viewModel.board.HotPlacePostViewModel
 import com.example.xml_ver.viewModel.boardInfo.CommentViewModel
 import com.example.xml_ver.viewModel.boardInfo.WishViewModel
+import com.example.xml_ver.viewModel.chat.ChatViewModel
 import com.example.xml_ver.viewModel.user.UserViewModel
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +43,7 @@ class HotPlaceDetailFragment : Fragment() {
     private val userViewModel: UserViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
     private val commentViewModel: CommentViewModel by viewModels()
+    private val chatViewModel: ChatViewModel by viewModels()
     private val wishViewModel: WishViewModel by viewModels()
     private lateinit var viewPager: ViewPager2
     private lateinit var commentAdapter: CommentAdapter
@@ -51,7 +54,7 @@ class HotPlaceDetailFragment : Fragment() {
     private var nickname = ""
     private var wished = false
     private var isMyPost = false
-    private var postUser : UserResponseModel? = null
+    private var postUser: UserResponseModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -174,10 +177,18 @@ class HotPlaceDetailFragment : Fragment() {
             binding.writerImage.setOnClickListener {
                 postUser?.let {
                     val bottomSheet = RoundedBottomSheetDialogFragment(
-                        it.userImage,
-                        nickname,
-                        it.major
-                    )
+                        it,
+                        chatViewModel
+                    ) {
+                        val action = HotPlaceDetailFragmentDirections
+                            .actionHotPlaceDetailFragmentToChatRoomFragment(
+                                chatId = chatViewModel.chatId.value,
+                                nickname = it.nickname,
+                                receiverId = it.uId,
+                                userImage = it.userImage
+                            )
+                        findNavController().navigate(action)
+                    }
                     bottomSheet.show(parentFragmentManager, "RoundedBottomSheetDialog")
                 }
             }

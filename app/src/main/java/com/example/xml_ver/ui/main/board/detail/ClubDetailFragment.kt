@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.MainActivity
@@ -35,6 +36,7 @@ import com.example.xml_ver.viewModel.board.ClubPostViewModel
 import com.example.xml_ver.viewModel.board.MeetingViewModel
 import com.example.xml_ver.viewModel.boardInfo.CommentViewModel
 import com.example.xml_ver.viewModel.boardInfo.WishViewModel
+import com.example.xml_ver.viewModel.chat.ChatViewModel
 import com.example.xml_ver.viewModel.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -47,6 +49,7 @@ class ClubDetailFragment : Fragment() {
     private val userViewModel: UserViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
     private val commentViewModel: CommentViewModel by viewModels()
+    private val chatViewModel: ChatViewModel by viewModels()
     private val wishViewModel: WishViewModel by viewModels()
     private lateinit var commentAdapter: CommentAdapter
     private val args: ClubDetailFragmentArgs by navArgs()
@@ -162,10 +165,18 @@ class ClubDetailFragment : Fragment() {
             binding.writerImage.setOnClickListener {
                 postUser?.let {
                     val bottomSheet = RoundedBottomSheetDialogFragment(
-                        it.userImage,
-                        nickname,
-                        it.major
-                    )
+                        it,
+                        chatViewModel
+                    ){
+                        val action = ClubDetailFragmentDirections
+                            .actionClubDetailFragmentToChatRoomFragment(
+                                chatId = chatViewModel.chatId.value,
+                                nickname = it.nickname,
+                                receiverId = it.uId,
+                                userImage = it.userImage
+                            )
+                        findNavController().navigate(action)
+                    }
                     bottomSheet.show(parentFragmentManager, "RoundedBottomSheetDialog")
                 }
             }
