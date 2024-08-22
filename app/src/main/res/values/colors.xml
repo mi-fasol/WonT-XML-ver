@@ -30,4 +30,6 @@
     <color name="noticeListScreenTextColor">#FFC0C0C0</color>
     <color name="attendFalseColor">#FFB3B3B3</color>
     <color name="wishItemBorderColor">#FFD9D9D9</color>
+    <color name="reportButtonColor">#FFF65A65</color>
+
 </resources>

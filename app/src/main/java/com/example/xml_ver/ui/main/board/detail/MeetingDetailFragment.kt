@@ -24,8 +24,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.CommentAdapter
+import com.example.xml_ver.data.retrofit.user.UserResponseModel
 import com.example.xml_ver.databinding.FragmentMeetingDetailBinding
+import com.example.xml_ver.ui.component.RoundedBottomSheetDialogFragment
 import com.example.xml_ver.util.SharedPreferenceUtil
+import com.example.xml_ver.util.userMyPageImageList
+import com.example.xml_ver.util.userProfileList
 import com.example.xml_ver.viewModel.MainViewModel
 import com.example.xml_ver.viewModel.board.AcceptState
 import com.example.xml_ver.viewModel.board.AcceptationViewModel
@@ -49,6 +53,7 @@ class MeetingDetailFragment : Fragment() {
     private lateinit var commentAdapter: CommentAdapter
     private val args: MeetingDetailFragmentArgs by navArgs()
     private var pId = 0
+    private var postUser : UserResponseModel? = null
     private var nickname = ""
     private var wished = false
     private var isMyPost = false
@@ -103,6 +108,7 @@ class MeetingDetailFragment : Fragment() {
             userViewModel.getUserByNickname(nickname)
             userViewModel.userByNickname.collect {
                 binding.user = it
+                postUser = it
             }
         }
     }
@@ -111,6 +117,17 @@ class MeetingDetailFragment : Fragment() {
         binding.apply {
             commentSendButton.setOnClickListener {
                 sendComment()
+            }
+
+            binding.writerImage.setOnClickListener {
+                postUser?.let {
+                    val bottomSheet = RoundedBottomSheetDialogFragment(
+                        it.userImage,
+                        nickname,
+                        it.major
+                    )
+                    bottomSheet.show(parentFragmentManager, "RoundedBottomSheetDialog")
+                }
             }
         }
     }

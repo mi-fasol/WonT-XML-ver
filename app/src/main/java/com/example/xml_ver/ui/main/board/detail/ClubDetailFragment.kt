@@ -23,8 +23,10 @@ import com.example.xml_ver.MainActivity
 import com.example.xml_ver.R
 import com.example.xml_ver.adapter.CommentAdapter
 import com.example.xml_ver.adapter.ReplyAdapter
+import com.example.xml_ver.data.retrofit.user.UserResponseModel
 import com.example.xml_ver.databinding.FragmentClubDetailBinding
 import com.example.xml_ver.databinding.FragmentMeetingDetailBinding
+import com.example.xml_ver.ui.component.RoundedBottomSheetDialogFragment
 import com.example.xml_ver.util.SharedPreferenceUtil
 import com.example.xml_ver.viewModel.MainViewModel
 import com.example.xml_ver.viewModel.board.AcceptState
@@ -52,6 +54,7 @@ class ClubDetailFragment : Fragment() {
     private var nickname = ""
     private var wished = false
     private var isMyPost = false
+    private var postUser: UserResponseModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -98,6 +101,7 @@ class ClubDetailFragment : Fragment() {
             userViewModel.getUserByNickname(nickname)
             userViewModel.userByNickname.collect {
                 binding.user = it
+                postUser = it
             }
         }
     }
@@ -153,6 +157,17 @@ class ClubDetailFragment : Fragment() {
         binding.apply {
             commentSendButton.setOnClickListener {
                 sendComment()
+            }
+
+            binding.writerImage.setOnClickListener {
+                postUser?.let {
+                    val bottomSheet = RoundedBottomSheetDialogFragment(
+                        it.userImage,
+                        nickname,
+                        it.major
+                    )
+                    bottomSheet.show(parentFragmentManager, "RoundedBottomSheetDialog")
+                }
             }
         }
     }

@@ -70,7 +70,7 @@ class ChatRoomFragment : Fragment() {
 
     private fun sendMessage() {
         binding.messageSendButton.setOnClickListener {
-            if (binding.messageEditTextView.text.isNotBlank()){
+            if (binding.messageEditTextView.text.isNotBlank()) {
                 chatViewModel.sendMessage(
                     receiverId,
                     ChatMessageModel(
@@ -92,6 +92,8 @@ class ChatRoomFragment : Fragment() {
 
             binding.navigationButton.setOnClickListener {
                 findNavController().popBackStack()
+                (activity as MainActivity).showBottomNavigation()
+                (activity as MainActivity).showFloatingButton()
             }
         }
     }
@@ -99,11 +101,14 @@ class ChatRoomFragment : Fragment() {
 
     private fun getChatInfo() {
         viewLifecycleOwner.lifecycleScope.launch {
-            chatViewModel.getChatRoomInfo(chatId, receiverId)
-            chatViewModel.chatMessages.collect {
-                chatRoomAdapter.submitList(it)
-                binding.chatListRecyclerView.post {
-                    binding.chatListRecyclerView.scrollToPosition(it.size - 1)
+            chatViewModel.findChatRoom(receiverId)
+            chatViewModel.chatId.collect {
+                chatViewModel.getChatRoomInfo(chatId, receiverId)
+                chatViewModel.chatMessages.collect {
+                    chatRoomAdapter.submitList(it)
+                    binding.chatListRecyclerView.post {
+                        binding.chatListRecyclerView.scrollToPosition(it.size - 1)
+                    }
                 }
             }
         }
