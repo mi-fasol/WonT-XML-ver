@@ -32,11 +32,12 @@ class ReportViewModel @Inject constructor(
             content.isNotBlank() && reportReason.isNotBlank()
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    fun sendReport(nickname: String) {
+    fun sendReport(nickname: String, uId: Int) {
         reportState.value = MailState.NONE
         viewModelScope.launch {
             try {
-                val message = "유저: ${nickname}\n사유: ${reportReason.value}\n내용: ${content.value}"
+                val message =
+                    "유저: ${nickname}\nuId: ${uId}\n사유: ${reportReason.value}\n내용: ${content.value}"
                 val mail = MailModel(
                     title = "WonT 신고 접수",
                     content = message
