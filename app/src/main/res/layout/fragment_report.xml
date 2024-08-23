@@ -66,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="40dp"
+            android:textColor="@color/mainColor"
             android:text="@{nickname}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/report_appbar" />
@@ -79,7 +80,7 @@
             android:layout_marginTop="15dp"
             android:text="님을 신고하시겠습니까?"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/report_appbar" />
+            app:layout_constraintTop_toBottomOf="@id/reported_nickname_field" />
 
         <Spinner
             android:id="@+id/report_category_field"
@@ -94,7 +95,7 @@
             android:textAppearance="@style/TextFieldContent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/report_text_field"
-            app:layout_constraintWidth_percent="0.5" />
+            app:layout_constraintWidth_percent="0.65" />
 
         <FrameLayout
             android:id="@+id/edit_text_background"

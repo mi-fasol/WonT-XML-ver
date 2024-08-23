@@ -56,7 +56,7 @@ class MeetingDetailFragment : Fragment() {
     private lateinit var commentAdapter: CommentAdapter
     private val args: MeetingDetailFragmentArgs by navArgs()
     private var pId = 0
-    private var postUser : UserResponseModel? = null
+    private var postUser: UserResponseModel? = null
     private var nickname = ""
     private var wished = false
     private var isMyPost = false
@@ -126,17 +126,24 @@ class MeetingDetailFragment : Fragment() {
                 postUser?.let {
                     val bottomSheet = RoundedBottomSheetDialogFragment(
                         it,
-                        chatViewModel
-                    ) {
-                        val action = MeetingDetailFragmentDirections
-                            .actionMeetingDetailFragmentToChatRoomFragment(
-                                chatId = chatViewModel.chatId.value,
-                                nickname = it.nickname,
-                                receiverId = it.uId,
-                                userImage = it.userImage
-                            )
-                        findNavController().navigate(action)
-                    }
+                        chatViewModel,
+                        {
+                            val action = MeetingDetailFragmentDirections
+                                .actionMeetingDetailFragmentToChatRoomFragment(
+                                    chatId = chatViewModel.chatId.value,
+                                    nickname = it.nickname,
+                                    receiverId = it.uId,
+                                    userImage = it.userImage
+                                )
+                            findNavController().navigate(action)
+                        }, {
+                            val action = MeetingDetailFragmentDirections
+                                .actionMeetingDetailFragmentToReportFragment(
+                                    nickname = it.nickname,
+                                    uId = it.uId
+                                )
+                            findNavController().navigate(action)
+                        })
                     bottomSheet.show(parentFragmentManager, "RoundedBottomSheetDialog")
                 }
             }

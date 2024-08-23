@@ -166,17 +166,23 @@ class ClubDetailFragment : Fragment() {
                 postUser?.let {
                     val bottomSheet = RoundedBottomSheetDialogFragment(
                         it,
-                        chatViewModel
-                    ){
-                        val action = ClubDetailFragmentDirections
-                            .actionClubDetailFragmentToChatRoomFragment(
-                                chatId = chatViewModel.chatId.value,
-                                nickname = it.nickname,
-                                receiverId = it.uId,
-                                userImage = it.userImage
-                            )
-                        findNavController().navigate(action)
-                    }
+                        chatViewModel, {
+                            val action = ClubDetailFragmentDirections
+                                .actionClubDetailFragmentToChatRoomFragment(
+                                    chatId = chatViewModel.chatId.value,
+                                    nickname = it.nickname,
+                                    receiverId = it.uId,
+                                    userImage = it.userImage
+                                )
+                            findNavController().navigate(action)
+                        }, {
+                            val action = ClubDetailFragmentDirections
+                                .actionClubDetailFragmentToReportFragment(
+                                    nickname = it.nickname,
+                                    uId = it.uId
+                                )
+                            findNavController().navigate(action)
+                        })
                     bottomSheet.show(parentFragmentManager, "RoundedBottomSheetDialog")
                 }
             }

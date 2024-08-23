@@ -24,14 +24,6 @@ class ReportViewModel @Inject constructor(
     var content = MutableStateFlow("")
     var reportState = MutableStateFlow(MailState.NONE)
 
-    var isValid: StateFlow<Boolean> =
-        combine(
-            content,
-            reportReason
-        ) { content, reportReason ->
-            content.isNotBlank() && reportReason.isNotBlank()
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
-
     fun sendReport(nickname: String, uId: Int) {
         reportState.value = MailState.NONE
         viewModelScope.launch {

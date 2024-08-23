@@ -26,7 +26,8 @@ import kotlinx.coroutines.launch
 class RoundedBottomSheetDialogFragment(
     private val user: UserResponseModel,
     private val chatViewModel: ChatViewModel,
-    private val onChatButtonClick: () -> Unit
+    private val onChatButtonClick: () -> Unit,
+    private val onReportButtonClick: () -> Unit
 ) : BottomSheetDialogFragment() {
 
     private var _binding: FragmentRoundedBottomSheetBinding? = null
@@ -60,6 +61,13 @@ class RoundedBottomSheetDialogFragment(
                         }
                     }
                 }
+            }
+        }
+
+        binding.reportButton.setOnClickListener {
+            if (user.uId != SharedPreferenceUtil(requireContext()).getUser().uId) {
+                onReportButtonClick()
+                dismiss()
             }
         }
     }

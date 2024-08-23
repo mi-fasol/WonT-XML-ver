@@ -131,6 +131,17 @@
                 android:name="receiverId"
                 app:argType="integer" />
         </action>
+
+        <action
+            android:id="@+id/action_meetingDetailFragment_to_reportFragment"
+            app:destination="@id/reportFragment">
+            <argument
+                android:name="nickname"
+                app:argType="string" />
+            <argument
+                android:name="uId"
+                app:argType="integer" />
+        </action>
     </fragment>
 
     <fragment
@@ -198,12 +209,12 @@
         <argument
             android:name="uId"
             android:defaultValue="0"
-            app:argType="Integer" />
+            app:argType="integer" />
 
         <argument
             android:name="nickname"
-            android:defaultValue="0"
-            app:argType="String" />
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
 
     <fragment
@@ -284,6 +295,17 @@
                 android:name="receiverId"
                 app:argType="integer" />
         </action>
+
+        <action
+            android:id="@+id/action_clubDetailFragment_to_reportFragment"
+            app:destination="@id/reportFragment">
+            <argument
+                android:name="nickname"
+                app:argType="string" />
+            <argument
+                android:name="uId"
+                app:argType="integer" />
+        </action>
     </fragment>
 
     <fragment
@@ -314,6 +336,17 @@
                 app:argType="integer" />
             <argument
                 android:name="receiverId"
+                app:argType="integer" />
+        </action>
+
+        <action
+            android:id="@+id/action_hotPlaceDetailFragment_to_reportFragment"
+            app:destination="@id/reportFragment">
+            <argument
+                android:name="nickname"
+                app:argType="string" />
+            <argument
+                android:name="uId"
                 app:argType="integer" />
         </action>
     </fragment>

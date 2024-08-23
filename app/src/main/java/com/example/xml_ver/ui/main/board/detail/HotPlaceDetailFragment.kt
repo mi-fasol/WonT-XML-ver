@@ -178,17 +178,23 @@ class HotPlaceDetailFragment : Fragment() {
                 postUser?.let {
                     val bottomSheet = RoundedBottomSheetDialogFragment(
                         it,
-                        chatViewModel
-                    ) {
-                        val action = HotPlaceDetailFragmentDirections
-                            .actionHotPlaceDetailFragmentToChatRoomFragment(
-                                chatId = chatViewModel.chatId.value,
-                                nickname = it.nickname,
-                                receiverId = it.uId,
-                                userImage = it.userImage
-                            )
-                        findNavController().navigate(action)
-                    }
+                        chatViewModel, {
+                            val action = HotPlaceDetailFragmentDirections
+                                .actionHotPlaceDetailFragmentToChatRoomFragment(
+                                    chatId = chatViewModel.chatId.value,
+                                    nickname = it.nickname,
+                                    receiverId = it.uId,
+                                    userImage = it.userImage
+                                )
+                            findNavController().navigate(action)
+                        }, {
+                            val action = HotPlaceDetailFragmentDirections
+                                .actionHotPlaceDetailFragmentToReportFragment(
+                                    nickname = it.nickname,
+                                    uId = it.uId
+                                )
+                            findNavController().navigate(action)
+                        })
                     bottomSheet.show(parentFragmentManager, "RoundedBottomSheetDialog")
                 }
             }

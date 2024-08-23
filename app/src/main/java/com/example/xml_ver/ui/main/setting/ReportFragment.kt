@@ -24,6 +24,7 @@ import com.example.xml_ver.data.retrofit.user.UserResponseModel
 import com.example.xml_ver.databinding.FragmentReportBinding
 import com.example.xml_ver.ui.main.chat.ChatRoomFragmentArgs
 import com.example.xml_ver.util.categoryList
+import com.example.xml_ver.util.reportList
 import com.example.xml_ver.util.setupButtonState
 import com.example.xml_ver.util.setupSpinnerClickEvent
 import com.example.xml_ver.viewModel.MainViewModel
@@ -61,19 +62,13 @@ class ReportFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
-        setupSpinners()
+        setupSpinner()
         setupSpinner()
         setupEditText()
         setButton()
 
         (activity as MainActivity).hideBottomNavigation()
         (activity as MainActivity).hideFloatingButton()
-    }
-
-    private fun setupSpinner() {
-        setupSpinnerClickEvent(binding.reportCategoryField) { category ->
-            reportViewModel.reportReason.value = category
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -86,9 +81,13 @@ class ReportFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun setupSpinners() {
+    private fun setupSpinner() {
+        setupSpinnerClickEvent(binding.reportCategoryField) { category ->
+            reportViewModel.reportReason.value = category
+        }
+
         categoryAdapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoryList)
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, reportList)
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         binding.reportCategoryField.adapter = categoryAdapter
@@ -108,8 +107,8 @@ class ReportFragment : Fragment() {
 
     private fun setButton() {
         viewLifecycleOwner.lifecycleScope.launch {
-            reportViewModel.isValid.collect {
-                setupButtonState(it, binding.reportButton, requireContext())
+            reportViewModel.content.collect {
+                setupButtonState(it.isNotBlank(), binding.reportButton, requireContext())
                 Log.d("미란, isValid", it.toString())
             }
         }
