@@ -82,7 +82,7 @@ class ChatListFragment : Fragment() {
 
     private fun setupToolbar(view: View) {
         binding.apply {
-            binding.toolbar.setOnClickListener {
+            binding.toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
         }
@@ -91,7 +91,6 @@ class ChatListFragment : Fragment() {
 
     private fun getChatList() {
         viewLifecycleOwner.lifecycleScope.launch {
-            SharedPreferenceUtil(requireContext()).setInt("uId", 19)
             chatListViewModel.getChatList()
             chatListViewModel.fireBaseChatModel.collect {
                 chatListAdapter.submitList(it)

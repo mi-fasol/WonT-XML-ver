@@ -18,7 +18,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/navigation_my_page"
-        android:icon="@drawable/hotplace_bottom_icon"
+        android:icon="@drawable/round_dog"
         android:title=""
         app:showAsAction="always" />
 </menu>

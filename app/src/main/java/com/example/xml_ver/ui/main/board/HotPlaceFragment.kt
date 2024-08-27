@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xml_ver.R
@@ -97,7 +98,7 @@ class HotPlaceFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
                 R.id.chat_list_page_navigation -> {
-                    Navigation.findNavController(view).navigateUp()
+                    findNavController().navigate(R.id.chatListFragment)
                     true
                 }
 

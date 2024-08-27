@@ -1,16 +1,21 @@
 package com.example.xml_ver
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.xml_ver.databinding.ActivityMainBinding
@@ -73,6 +78,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private var isExpanded = false
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +90,31 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigation
+        setupBottomNavigationMenu(bottomNavigationView)
+
+        if (savedInstanceState == null) {
+            bottomNavigationView.selectedItemId = R.id.navigation_meeting
+        }
+
+        hideMenu()
+
+        binding.mainFloatingButton.setOnClickListener {
+            Log.d("미란", "눌렸음")
+            isExpanded = !isExpanded
+            toggleMenu()
+        }
+    }
+
+    private fun setupBottomNavigationMenu(bottomNavigationView: BottomNavigationView) {
+        setCustomView(bottomNavigationView, R.id.navigation_meeting, R.drawable.meeting_bottom_icon)
+        setCustomView(bottomNavigationView, R.id.navigation_club, R.drawable.club_bottom_icon)
+        setCustomView(bottomNavigationView, R.id.navigation_hot, R.drawable.hotplace_bottom_icon)
+        setCustomView(
+            bottomNavigationView,
+            R.id.navigation_my_page,
+            userMyPageImageList[SharedPreferenceUtil(this).getInt("image", 0)]
+        )
+
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_meeting -> {
@@ -113,22 +144,21 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
 
-        val myPageIcon = binding.bottomNavigation.menu.findItem(R.id.navigation_my_page)
-        val userImage = userMyPageImageList[SharedPreferenceUtil(this).getInt("image", 0)]
-        myPageIcon.setIcon(ContextCompat.getDrawable(this, userImage))
+    private fun setCustomView(
+        bottomNavigationView: BottomNavigationView,
+        itemId: Int,
+        iconResId: Int
+    ) {
+        val menuItem = bottomNavigationView.menu.findItem(itemId)
+        val customView = LayoutInflater.from(this).inflate(R.layout.custom_bottom_nav_item, null)
+        val imageView: ImageView = customView.findViewById(R.id.icon_image)
 
-        if (savedInstanceState == null) {
-            bottomNavigationView.selectedItemId = R.id.navigation_meeting
-        }
+        val drawable = ContextCompat.getDrawable(this, iconResId)
+        imageView.setImageDrawable(drawable)
 
-        hideMenu()
-
-        binding.mainFloatingButton.setOnClickListener {
-            Log.d("미란", "눌렸음")
-            isExpanded = !isExpanded
-            toggleMenu()
-        }
+        menuItem.actionView = customView
     }
 
     private fun toggleMenu() {
