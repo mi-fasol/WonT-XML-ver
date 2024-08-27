@@ -228,7 +228,7 @@ class HotPlaceDetailFragment : Fragment() {
 
 
     private fun setupCommentRecyclerView() {
-        commentAdapter = CommentAdapter(mainViewModel, commentViewModel)
+        commentAdapter = CommentAdapter(mainViewModel, commentViewModel, chatViewModel, findNavController(), parentFragmentManager)
         binding.commentRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = commentAdapter
