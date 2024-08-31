@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 
 class HotPlacePostAdapter(
     private val mainViewModel: MainViewModel,
-    private val wishList: List<HotPlaceResponsePostModel>,
     private val wishViewModel: WishViewModel
 ) : ListAdapter<HotPlaceResponsePostModel, HotPlacePostAdapter.PostViewHolder>(
     HotPlacePostDiffCallback()
@@ -44,14 +43,18 @@ class HotPlacePostAdapter(
         fun bind(post: HotPlaceResponsePostModel) {
             binding.hotPlacePost = post
             binding.mainViewModel = mainViewModel
-            binding.wish = wishList.contains(post)
 
-            binding.executePendingBindings()
+            CoroutineScope(Dispatchers.Main).launch {
+                wishViewModel.getWishHotPlace()
+                wishViewModel.wishHotPlaceList.collect { wishList ->
+                    binding.wish = wishList.contains(post)
+                    binding.executePendingBindings()
+                }
+            }
 
             binding.heartIcon.setOnClickListener {
-                CoroutineScope(Dispatchers.Main).launch {
-                    wishViewModel.changeWish(post.hpId, 3, binding.wish)
-                }
+                wishViewModel.changeWish(post.hpId, 3, binding.wish)
+                notifyItemChanged(bindingAdapterPosition)
             }
 
             binding.root.setOnClickListener {

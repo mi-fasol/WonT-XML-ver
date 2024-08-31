@@ -250,6 +250,19 @@ class WishViewModel @Inject constructor(
                     if (deleted != null) {
                         _isDeleted.value = deleted
                         _isWished.value = !deleted
+                        when (type) {
+                            1 -> {
+
+                            }
+
+                            2 -> {
+
+                            }
+
+                            else -> {
+
+                            }
+                        }
                     }
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
@@ -262,10 +275,14 @@ class WishViewModel @Inject constructor(
     }
 
     fun changeWish(pId: Int, type: Int, wished: Boolean) {
-        if (wished) {
-            deleteWishList(pId, type)
-        } else {
-            addWishList(pId, type)
+        viewModelScope.launch {
+            if (wished) {
+                deleteWishList(pId, type)
+            } else {
+                addWishList(pId, type)
+            }
+            getWishHotPlace()
         }
     }
+
 }

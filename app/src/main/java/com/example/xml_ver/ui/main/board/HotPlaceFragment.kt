@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -24,6 +26,8 @@ import com.example.xml_ver.viewModel.board.HotPlacePostViewModel
 import com.example.xml_ver.viewModel.boardInfo.WishViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
+import okhttp3.internal.notifyAll
 
 @AndroidEntryPoint
 class HotPlaceFragment : Fragment() {
@@ -49,18 +53,26 @@ class HotPlaceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getWishPostList()
         setupToolbar(view)
+        setupRecyclerViews()
         getPostData()
     }
 
-    private fun setupRecyclerViews(wishList: List<HotPlaceResponsePostModel>) {
-        setupPopularRecyclerView(wishList)
-        setupHotPlacePostRecyclerView(wishList)
+    private fun setupRecyclerViews() {
+        setupPopularRecyclerView()
+        setupHotPlacePostRecyclerView()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                wishViewModel.wishHotPlaceList.collect {
+                    hotPlacePostAdapter.notifyDataSetChanged()
+                    popularHotPlacePostAdapter.notifyDataSetChanged()
+                }
+            }
+        }
     }
 
-    private fun setupPopularRecyclerView(wishList: List<HotPlaceResponsePostModel>) {
-        popularHotPlacePostAdapter = PopularHotPlacePostAdapter(mainViewModel, wishList, wishViewModel)
+    private fun setupPopularRecyclerView() {
+        popularHotPlacePostAdapter = PopularHotPlacePostAdapter(mainViewModel, wishViewModel)
         binding.popularHotPlaceView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = popularHotPlacePostAdapter
@@ -76,9 +88,9 @@ class HotPlaceFragment : Fragment() {
         }
     }
 
-    private fun setupHotPlacePostRecyclerView(wishList: List<HotPlaceResponsePostModel>) {
+    private fun setupHotPlacePostRecyclerView() {
         hotPlacePostAdapter =
-            HotPlacePostAdapter(mainViewModel, wishList, wishViewModel)
+            HotPlacePostAdapter(mainViewModel, wishViewModel)
         binding.hotPlacePostView.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = hotPlacePostAdapter
@@ -119,19 +131,6 @@ class HotPlaceFragment : Fragment() {
             hotPlaceViewModel.getHotPlacePost()
             hotPlaceViewModel.hotPlacePostList.collect {
                 hotPlacePostAdapter.submitList(it)
-            }
-        }
-    }
-
-    private fun getWishPostList() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            wishViewModel.getWishHotPlace()
-            wishViewModel.wishHotPlaceList.collect {
-                if (it.isNotEmpty()) {
-                    setupRecyclerViews(it)
-                } else {
-                    setupRecyclerViews(emptyList())
-                }
             }
         }
     }
